@@ -2,7 +2,7 @@ import yaml
 from sanic import Sanic
 from sanic.response import json
 
-with open("config.yml", 'r') as ymlfile:
+with open("config.yaml", 'r') as ymlfile:
     cfg = yaml.load(ymlfile)
 
 api_config = cfg['api']
