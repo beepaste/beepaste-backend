@@ -7,8 +7,6 @@ with open("config.yaml", 'r') as ymlfile:
 
 web_cnf = cfg['web_server']
 
-print(web_cnf['debug'])
-
 # asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 app = Sanic()
 

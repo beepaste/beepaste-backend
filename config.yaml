@@ -9,5 +9,5 @@ api:
 web_server:
     port : 8080
     host : localhost
-    debug : 0
+    debug : False
     workers: 8
