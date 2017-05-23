@@ -17,4 +17,4 @@ async def test(request):
 
 if __name__ == "__main__":
     logger.debug('Starting server')
-    app.run(**web_cnf, log_config=None)
+    app.run(**web_cnf)
