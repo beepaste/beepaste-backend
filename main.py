@@ -16,5 +16,5 @@ async def test(request):
     return json({"hello": "world"})
 
 if __name__ == "__main__":
-    logger.debug('Starting server')
+    logger.info('Starting server')
     app.run(**web_cnf)

@@ -17,9 +17,38 @@ web_server:
     port : 8080
     host : localhost
     workers: 8
-    log_config: None
+    log_config:
+        version: 1
+        formatters:
+            beepasteFormater:
+                format: "%(asctime)s %(name)-12s %(levelname)-8s %(message)s"
+                datefmt: '%Y/%m/%d %H:%M:%S'
+        handlers:
+            file:
+                class : logging.FileHandler
+                formatter: beepasteFormater
+                level: DEBUG
+                filename: sanic.log
+        root:
+            level: DEBUG
+            handlers: [file]
 
 logger:
-    log_file : '/var/log/beepaste.log'
-    log_level: "INFO"
-    format: "%(asctime)s %(name)-12s %(levelname)-8s %(message)s"
+    version: 1
+    formatters:
+        beepasteFormater:
+            format: "%(asctime)s %(name)-12s %(levelname)-8s %(message)s"
+            datefmt: '%Y/%m/%d %H:%M:%S'
+    handlers:
+        file:
+            class : logging.FileHandler
+            formatter: beepasteFormater
+            level: INFO
+            filename: beepaste.log
+    loggers:
+        beepaste:
+            level: INFO
+            handlers: [file]
+    root:
+        level: INFO
+        handlers: [file]
