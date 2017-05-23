@@ -13,27 +13,7 @@ redis:
 api:
     use_anonymous: yes
 
-web_server:
-    port : 8080
-    host : localhost
-    workers: 8
-    log_config:
-        version: 1
-        formatters:
-            beepasteFormater:
-                format: "%(asctime)s %(name)-12s %(levelname)-8s %(message)s"
-                datefmt: '%Y/%m/%d %H:%M:%S'
-        handlers:
-            file:
-                class : logging.FileHandler
-                formatter: beepasteFormater
-                level: DEBUG
-                filename: sanic.log
-        root:
-            level: DEBUG
-            handlers: [file]
-
-logger:
+logger: &logger
     version: 1
     formatters:
         beepasteFormater:
@@ -52,3 +32,9 @@ logger:
     root:
         level: INFO
         handlers: [file]
+
+web_server:
+    port : 8080
+    host : localhost
+    workers: 8
+    log_config: *logger
