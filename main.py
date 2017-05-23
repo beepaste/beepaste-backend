@@ -13,8 +13,7 @@ app = Sanic()
 
 @app.route("/")
 async def test(request):
-    print(request.headers)
     return json({"hello": "world"})
 
 if __name__ == "__main__":
-    app.run(**web_cnf)
+    app.run(**web_cnf, log_config=None)
