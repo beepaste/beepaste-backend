@@ -1,10 +1,11 @@
+import yaml
 import os
 
 
 def get_config(section):
     dirname = os.path.dirname
     try:
-        conf_file = dirname(os.path.realpath(__file__)) + '/confi2g.yaml'
+        conf_file = dirname(os.path.realpath(__file__)) + '/config.yaml'
         with open(conf_file, 'r') as ymlfile:
             cfg = yaml.load(ymlfile)
     except FileNotFoundError:
