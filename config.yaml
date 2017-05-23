@@ -1,14 +1,15 @@
-db:
-    mongodb:
-      host: localhost
-      port: 27017
-      username: beepaste
-      password: my secret password
-      database: beepaste
-    redis:
-      host: localhost
-      port: 6379
-      password: my secret password 
+mongodb:
+    host: localhost
+    port: 27017
+    username: beepaste
+    password: my secret password
+    database: beepaste
+
+redis:
+  host: localhost
+  port: 6379
+  password: my secret password 
+
 api:
     use_anonymous: yes
 

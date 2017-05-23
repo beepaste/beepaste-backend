@@ -1,6 +1,5 @@
-import asyncio
-import loop
 import motor.motor_asyncio
+
 
 class MongoDB(object):
 
@@ -11,7 +10,7 @@ class MongoDB(object):
             self.connString += config['username'] + ':' + config['password'] + '@'
         self.connString += config['host'] + ':' + config['port'] + '/' + config['database']
         self.client = motor.motor_asyncio.AsyncIOMotorClient(self.connString)
-        self.database = self.client[ config['database'] ]
+        self.database = self.client[config['database']]
         self.collection = self.database[collection]
 
     def insert(self, document):
