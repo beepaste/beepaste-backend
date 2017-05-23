@@ -13,3 +13,7 @@ class MongoDB(object):
         self.client = motor.motor_asyncio.AsyncIOMotorClient(self.connString)
         self.database = self.client[ config['database'] ]
         self.collection = self.database[collection]
+
+    def insert(self, document):
+        result = self.collection.insert_one(document)
+        return result
