@@ -6,9 +6,9 @@ mongodb:
     database: beepaste
 
 redis:
-  host: localhost
-  port: 6379
-  password: my secret password 
+    host: localhost
+    port: 6379
+    password: my secret password 
 
 api:
     use_anonymous: yes
@@ -18,3 +18,8 @@ web_server:
     host : localhost
     workers: 8
     log_config: None
+
+logger:
+    log_file : '/var/log/beepaste.log'
+    log_level: "INFO"
+    format=%(asctime)s %(name)-12s %(levelname)-8s %(message)s
