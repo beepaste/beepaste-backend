@@ -23,14 +23,14 @@ logger: &logger
         file:
             class : logging.FileHandler
             formatter: beepasteFormater
-            level: DEBUG
+            level: INFO
             filename: beepaste.log
     loggers:
         beepaste:
-            level: DEBUG
+            level: INFO
             handlers: [file]
     root:
-        level: DEBUG
+        level: INFO
         handlers: [file]
 
 web_server:
