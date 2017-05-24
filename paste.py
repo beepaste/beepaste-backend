@@ -28,13 +28,13 @@ class Paste(object):
     pasteDate and expiretDate and so on! This class is developing.
     """
     def __init__(self, author="Anonymous", title="Untitled",
-                 date=datetime.datetime.utcnow(), expiretDate=datetime.datetime.utcnow(),
+                 date=datetime.datetime.utcnow(), expiryDate=datetime.datetime.utcnow(),
                  toExpire=False, raw="", encryption="no", syntax="text", views=0,
                  ownerID=0):
         self.author = author  # paste author name!
         self.title = title  # paste title!
         self.date = date  # paste submission date!
-        self.expiretDate = expiretDate  # paste expiration date (equals paste
+        self.expiryDate = expiryDate  # paste expiration date (equals paste
                                         # submission date if toExpire=False)
         self.toExpire = toExpire  # if paste has to be expired!
         self.raw = raw  # paste raw text encoded in Base64!
@@ -55,7 +55,7 @@ class Paste(object):
         assert len(self.title) > 0 and len(self.title) < 255
 
         assert type(self.date) == datetime.datetime
-        assert type(self.expiretDate) == datetime.datetime
+        assert type(self.expiryDate) == datetime.datetime
 
         assert type(self.raw) == str
         assert len(self.raw) > 0
