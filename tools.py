@@ -9,12 +9,10 @@ def get_config(section):
         with open(conf_file, 'r') as ymlfile:
             cfg = yaml.load(ymlfile)
     except FileNotFoundError:
-        #TODO: Log this
         return {}
     try:
         return cfg[section]
     except KeyError:
-        #TODO: Log this
         return {}
 
 
