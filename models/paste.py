@@ -22,6 +22,7 @@ validSyntax = {'abap', 'abc', 'actionscript', 'ada', 'apache_conf', 'applescript
                'textile', 'toml', 'twig', 'typescript', 'vala', 'vbscript', 'velocity',
                'verilog', 'vhdl', 'xml', 'xquery', 'yaml'}
 
+
 class Date(fields.Field):
     def __init__(self, *args, **kwargs):
         super(Date, self).__init__(validators.DateTime(), *args, **kwargs)

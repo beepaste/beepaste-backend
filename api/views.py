@@ -1,5 +1,5 @@
 from tools import get_config, get_logger
-from paste import Paste
+from models import paste
 from sanic.response import json
 
 
