@@ -1,9 +1,9 @@
 mongodb:
     host: localhost
-    port: 27017
-    username: beepaste
-    password: my secret password
-    database: beepaste
+    port: '27017'
+    username: admin
+    password: yzbRq1eujwcI
+    database: admin
 
 redis:
     host: localhost
