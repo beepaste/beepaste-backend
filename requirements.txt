@@ -1,8 +1,11 @@
 aiofiles==0.3.1
+booby==0.7.0
 httptools==0.0.9
+motor==1.1
+PyJWT==1.5.0
+pymongo==3.4.0
 PyYAML==3.12
 sanic==0.5.4
 ujson==1.35
 uvloop==0.8.0
 websockets==3.3
-booby==0.7.0
