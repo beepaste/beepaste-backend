@@ -2,6 +2,7 @@ import datetime
 from booby import Model, fields, validators
 import string
 import jwt
+from random import *
 
 class Date(fields.Field):
     def __init__(self, *args, **kwargs):
@@ -18,8 +19,8 @@ class Api(Model):
     ownerID = fields.Integer(default=0)
     ip_address = fields.String(required=True)
 
-    def genSecret(self, len):
-        allchar = string.ascii_lowercase + string.digits
+    def genSecret(self, len = 8):
+        allchar = string.ascii_letters + string.digits
         self.secret = "".join(choice(allchar) for x in range(len))
 
     def genToken(self):
@@ -28,4 +29,4 @@ class Api(Model):
             'iat': datetime.datetime.utcnow(),
             'ownerID': self.ownerID
         }
-        self.token = jwt.encode(payload, self.secret, algorithm='HS256')
+        self.token = jwt.encode(payload, self.secret, algorithm='HS256').decode('utf-8')
