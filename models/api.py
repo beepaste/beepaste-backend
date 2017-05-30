@@ -4,9 +4,11 @@ import string
 import jwt
 from random import *
 
+
 class Date(fields.Field):
     def __init__(self, *args, **kwargs):
         super(Date, self).__init__(validators.DateTime(), *args, **kwargs)
+
 
 class Api(Model):
     """
@@ -19,7 +21,7 @@ class Api(Model):
     ownerID = fields.Integer(default=0)
     ip_address = fields.String(required=True)
 
-    def genSecret(self, len = 8):
+    def genSecret(self, len=8):
         allchar = string.ascii_letters + string.digits
         self.secret = "".join(choice(allchar) for x in range(len))
 
