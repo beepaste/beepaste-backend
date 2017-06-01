@@ -12,6 +12,5 @@ class MongoDB(object):
         self.client = motor.motor_asyncio.AsyncIOMotorClient(self.connString)
         self.database = self.client[config['database']]
 
-    async def insert(self, collection, document):
-        result = self.database[collection].insert_one(document)
-        return result
+    def insert(self, collection, document):
+        return self.database[collection].insert_one(document)
