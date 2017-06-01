@@ -1,6 +1,7 @@
 import datetime
 from booby import Model, fields, validators
-import mongodb
+import db.mongodb
+import json
 
 validEncriptions = {'no', 'pgp', 'passwd'}
 validSyntax = {'abap', 'abc', 'actionscript', 'ada', 'apache_conf', 'applescript',
@@ -47,4 +48,4 @@ class Paste(Model):
     __collection__ = 'pastes'
 
     def save(self, dbEngine):
-        return dbEngine.insert(self.__collection__, self.to_json())
+        return dbEngine.insert(self.__collection__, json.loads(self.to_json()))
