@@ -49,3 +49,8 @@ class Paste(Model):
 
     views = fields.Integer(default=0)
     ownerID = fields.Integer(default=0)
+
+    __collection__ = 'pastes'
+
+    async def save(self, dbEngine):
+        dbEngine.insert(self, self.__collection__)
