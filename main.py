@@ -15,4 +15,4 @@ tools.add_api_routes(app)
 
 if __name__ == "__main__":
     # logger.info('Starting server')
-    app.run()
+    app.run(**web_cnf)
