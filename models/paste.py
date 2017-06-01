@@ -23,12 +23,6 @@ validSyntax = {'abap', 'abc', 'actionscript', 'ada', 'apache_conf', 'applescript
                'textile', 'toml', 'twig', 'typescript', 'vala', 'vbscript', 'velocity',
                'verilog', 'vhdl', 'xml', 'xquery', 'yaml'}
 
-
-class Date(fields.Field):
-    def __init__(self, *args, **kwargs):
-        super(Date, self).__init__(validators.DateTime(), *args, **kwargs)
-
-
 class Paste(Model):
     """
     The PASTE class have attributes for a paste such as raw text (encoded in Base64),
