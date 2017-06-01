@@ -1,5 +1,6 @@
 import datetime
 from booby import Model, fields, validators
+import mongodb
 
 validEncriptions = {'no', 'pgp', 'passwd'}
 validSyntax = {'abap', 'abc', 'actionscript', 'ada', 'apache_conf', 'applescript',
@@ -38,8 +39,8 @@ class Paste(Model):
     title = fields.String(default="Untitled")
     shorturl = fields.String(default="https://beepaste.io/")
 
-    date = Date(default=datetime.datetime.utcnow())
-    expiryDate = Date(default=datetime.datetime.utcnow())
+    date = fields.Float(default=datetime.datetime.utcnow().timestamp())
+    expiryDate = fields.Float(default=datetime.datetime.utcnow().timestamp())
     toExpire = fields.Boolean(default=False)
 
     raw = fields.String(required=True)
