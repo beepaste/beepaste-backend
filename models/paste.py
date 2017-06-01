@@ -46,5 +46,5 @@ class Paste(Model):
 
     __collection__ = 'pastes'
 
-    async def save(self, dbEngine):
-        dbEngine.insert(self, self.__collection__)
+    def save(self, dbEngine):
+        return dbEngine.insert(self.__collection__, self.to_json())

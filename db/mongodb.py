@@ -8,7 +8,7 @@ class MongoDB(object):
         self.connString = 'mongodb://'
         if 'username' in config:
             self.connString += config['username'] + ':' + config['password'] + '@'
-        self.connString += config['host'] + ':' + config['port'] + '/' + config['database']
+        self.connString += config['host'] + ':' + str(config['port']) + '/' + config['database']
         self.client = motor.motor_asyncio.AsyncIOMotorClient(self.connString)
         self.database = self.client[config['database']]
 
