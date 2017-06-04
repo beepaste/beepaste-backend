@@ -35,7 +35,7 @@ class Api(Model):
         return dbEngine.insert(self.__collection__, json.loads(self.to_json()))
 
     def countInTime(self, dbEngine, from):
-        from_timestamp = from.timestamp()
+        from_timestamp = await from.timestamp()
         query = {
             'ip_address': self.ip_address,
             'expires': {
