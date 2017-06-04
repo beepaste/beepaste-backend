@@ -23,7 +23,8 @@ async def new_api_token(request): # GET request
                   ownerID=0, ip_address=request.ip)
     mongo_config = get_config('mongodb')
     dbEngine = MongoDB(mongo_config)
-    if new_api.countInTime(dbEngine, datetime.datetime.utcnow() - datetime.timedelta(minutes=15)) < 5:
+    time_delta = await new_api.countInTime(dbEngine, datetime.datetime.utcnow() - datetime.timedelta(minutes=15))
+    if time_delta < 5:
         new_api.genSecret()
         new_api.genToken()
         if new_api.is_valid:

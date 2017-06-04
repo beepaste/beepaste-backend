@@ -37,4 +37,4 @@ web_server:
     port : 8080
     host : localhost
     workers: 8
-    log_config: *logger
+
