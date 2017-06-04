@@ -5,11 +5,6 @@ import jwt
 from random import *
 
 
-class Date(fields.Field):
-    def __init__(self, *args, **kwargs):
-        super(Date, self).__init__(validators.DateTime(), *args, **kwargs)
-
-
 class Api(Model):
     """
     Api model used to authorize api usages!
@@ -17,9 +12,10 @@ class Api(Model):
 
     secret = fields.String(required=True)
     token = fields.String(required=True)
-    expires = Date(required=True)
+    expires = fields.Float(required=True)
     ownerID = fields.Integer(default=0)
     ip_address = fields.String(required=True)
+    generated_on = fields.Float(default=datetime.datetime.utcnow().timestamp())
 
     def genSecret(self, len=8):
         allchar = string.ascii_letters + string.digits
