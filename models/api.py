@@ -17,6 +17,8 @@ class Api(Model):
     ip_address = fields.String(required=True)
     generated_on = fields.Float(default=datetime.datetime.utcnow().timestamp())
 
+    __collection__ = "tokens"
+
     def genSecret(self, len=8):
         allchar = string.ascii_letters + string.digits
         self.secret = "".join(choice(allchar) for x in range(len))
@@ -28,3 +30,6 @@ class Api(Model):
             'ownerID': self.ownerID
         }
         self.token = jwt.encode(payload, self.secret, algorithm='HS256').decode('utf-8')
+
+    def save(self, dbEngine):
+        return dbEngine.insert(self.__collection__, json.loads(self.to_json()))
