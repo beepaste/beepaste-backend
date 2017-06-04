@@ -2,7 +2,7 @@ mongodb:
     host: localhost
     port: '27017'
     username: admin
-    password: yzbRq1eujwcI
+    password: saeU0T8x1AOz
     database: admin
 
 redis:
@@ -37,4 +37,3 @@ web_server:
     port : 8080
     host : localhost
     workers: 8
-
