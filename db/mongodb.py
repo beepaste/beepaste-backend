@@ -14,3 +14,6 @@ class MongoDB(object):
 
     def insert(self, collection, document):
         return self.database[collection].insert_one(document)
+
+    def count(self, collection, query):
+        return self.database[collection].find(query).count()

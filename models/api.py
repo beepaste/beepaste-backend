@@ -12,7 +12,7 @@ class Api(Model):
 
     secret = fields.String(required=True)
     token = fields.String(required=True)
-    expires = fields.Float(required=True)
+    expires = fields.Float(required=True) # TODO: expire each Anonymous token after 15 minutes!
     ownerID = fields.Integer(default=0)
     ip_address = fields.String(required=True)
     generated_on = fields.Float(default=datetime.datetime.utcnow().timestamp())
@@ -33,3 +33,13 @@ class Api(Model):
 
     def save(self, dbEngine):
         return dbEngine.insert(self.__collection__, json.loads(self.to_json()))
+
+    def countInTime(self, dbEngine, from):
+        from_timestamp = from.timestamp()
+        query = {
+            'ip_address': self.ip_address,
+            'expires': {
+                '$gt': from_timestamp
+            }
+        }
+        return dbEngine.count(self.__collection__, query)
