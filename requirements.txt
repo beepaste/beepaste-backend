@@ -1,11 +1,15 @@
 aiofiles==0.3.1
+blinker==1.4
 booby==0.7.0
 httptools==0.0.9
+mongoengine==0.13.0
+mongomotor==0.9.3
 motor==1.1
 PyJWT==1.5.0
 pymongo==3.4.0
 PyYAML==3.12
 sanic==0.5.4
+six==1.10.0
 ujson==1.35
 uvloop==0.8.0
 websockets==3.3

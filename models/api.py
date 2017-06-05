@@ -1,21 +1,24 @@
 import datetime
-from booby import Model, fields, validators
 import string
-import jwt
 from random import *
 
+import jwt
+from mongomotor import Document, connect
+from mongomotor.fields import (EmbeddedDocumentField, FloatField, IntField,
+                               ListField, ReferenceField, StringField)
 
-class Api(Model):
+
+class Api(Document):
     """
     Api model used to authorize api usages!
     """
 
-    secret = fields.String(required=True)
-    token = fields.String(required=True)
-    expires = fields.Float(required=True) # TODO: expire each Anonymous token after 15 minutes!
-    ownerID = fields.Integer(default=0)
-    ip_address = fields.String(required=True)
-    generated_on = fields.Float(default=datetime.datetime.utcnow().timestamp())
+    secret = StringField(required=True)
+    token = StringField(required=True)
+    expires = FloatField(required=True) # TODO: expire each Anonymous token after 15 minutes!
+    ownerID = IntField(default=0)
+    ip_address = StringField(required=True)
+    generated_on = FloatField(default=datetime.datetime.utcnow().timestamp())
 
     __collection__ = "tokens"
 
