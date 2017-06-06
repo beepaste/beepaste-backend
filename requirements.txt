@@ -1,9 +1,9 @@
 aiofiles==0.3.1
+asymongo==0.9.4
 blinker==1.4
-booby==0.7.0
+greenlet==0.4.5
 httptools==0.0.9
 mongoengine==0.13.0
-mongomotor==0.9.3
 motor==1.1
 PyJWT==1.5.0
 pymongo==3.4.0
