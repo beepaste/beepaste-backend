@@ -4,8 +4,7 @@ from random import *
 
 import jwt
 from asymongo import Document, connect
-from asymongo.fields import (FloatField, IntField, DateTimeField,
-                               StringField)
+from asymongo.fields import (IntField, DateTimeField, StringField)
 
 
 class Api(Document):
@@ -18,7 +17,7 @@ class Api(Document):
     expires = DateTimeField(required=True, default=(datetime.datetime.utcnow() + datetime.timedelta(minutes=15))) # TODO: expire each Anonymous token after 15 minutes!
     ownerID = IntField(default=0)
     ip_address = StringField(required=True)
-    generated_on = FloatField(default=datetime.datetime.utcnow().timestamp())
+    generated_on = DateTimeField(default=datetime.datetime.utcnow())
 
     meta = {'collection': 'tokens'}
 
