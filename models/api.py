@@ -3,9 +3,9 @@ import string
 from random import *
 
 import jwt
-from mongomotor import Document, connect
-from mongomotor.fields import (EmbeddedDocumentField, FloatField, IntField,
-                               ListField, ReferenceField, StringField)
+from asymongo import Document, connect
+from asymongo.fields import (FloatField, IntField, DateTimeField,
+                               StringField)
 
 
 class Api(Document):
@@ -15,12 +15,12 @@ class Api(Document):
 
     secret = StringField(required=True)
     token = StringField(required=True)
-    expires = FloatField(required=True) # TODO: expire each Anonymous token after 15 minutes!
+    expires = DateTimeField(required=True, default=(datetime.datetime.utcnow() + datetime.timedelta(minutes=15))) # TODO: expire each Anonymous token after 15 minutes!
     ownerID = IntField(default=0)
     ip_address = StringField(required=True)
     generated_on = FloatField(default=datetime.datetime.utcnow().timestamp())
 
-    __collection__ = "tokens"
+    meta = {'collection': 'tokens'}
 
     def genSecret(self, len=8):
         allchar = string.ascii_letters + string.digits
