@@ -1,6 +1,7 @@
 import datetime
-from booby import Model, fields, validators
-import db.mongodb
+from asymongo import Document, connect
+from asymongo.fields import (IntField, DateTimeField, StringField, URLField
+                                BooleanField)
 import json
 
 validEncriptions = {'no', 'pgp', 'passwd'}
@@ -30,22 +31,19 @@ class Paste(Model):
     pasteDate and expiretDate and so on! This class is developing.
     """
 
-    author = fields.String(default="Anonymous")
-    title = fields.String(default="Untitled")
-    shorturl = fields.String(default="https://beepaste.io/")
+    author = StringField(default="Anonymous", max_length=127)
+    title = StringField(default="Untitled", max_length=127)
+    shorturl = URLField(default="https://beepaste.io/")
 
-    date = fields.Float(default=datetime.datetime.utcnow().timestamp())
-    expiryDate = fields.Float(default=datetime.datetime.utcnow().timestamp())
-    toExpire = fields.Boolean(default=False)
+    date = DateTimeField(default=datetime.datetime.utcnow())
+    expiryDate = DateTimeField(default=datetime.datetime.utcnow())
+    toExpire = BooleanField(default=False)
 
-    raw = fields.String(required=True)
-    encryption = fields.String(choices=validEncriptions, default="no")
-    syntax = fields.String(choices=validSyntax, default="text")
+    raw = StringField(required=True)
+    encryption = StringField(choices=validEncriptions, default="no")
+    syntax = StringField(choices=validSyntax, default="text")
 
-    views = fields.Integer(default=0)
-    ownerID = fields.Integer(default=0)
+    views = IntField(default=0)
+    ownerID = IntField(default=0)
 
-    __collection__ = 'pastes'
-
-    def save(self, dbEngine):
-        return dbEngine.insert(self.__collection__, json.loads(self.to_json()))
+    meta = {'collection': 'pastes'}
