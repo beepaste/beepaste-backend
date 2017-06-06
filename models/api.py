@@ -33,16 +33,3 @@ class Api(Document):
             'ownerID': self.ownerID
         }
         self.token = jwt.encode(payload, self.secret, algorithm='HS256').decode('utf-8')
-
-    def save(self, dbEngine):
-        return dbEngine.insert(self.__collection__, json.loads(self.to_json()))
-
-    def countInTime(self, dbEngine, fromTime):
-        from_timestamp = fromTime.timestamp()
-        query = {
-            'ip_address': self.ip_address,
-            'expires': {
-                '$gt': from_timestamp
-            }
-        }
-        return dbEngine.count(self.__collection__, query)
