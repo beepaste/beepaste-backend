@@ -4,7 +4,7 @@ from random import *
 
 import jwt
 from asymongo import Document, connect
-from asymongo.fields import (IntField, DateTimeField, StringField)
+from asymongo.fields import (IntField, DateTimeField, StringField, DictField)
 
 
 class Api(Document):
@@ -14,10 +14,33 @@ class Api(Document):
 
     secret = StringField(required=True)
     token = StringField(required=True)
-    expires = DateTimeField(required=True, default=(datetime.datetime.utcnow() + datetime.timedelta(minutes=15))) # TODO: expire each Anonymous token after 15 minutes!
+    expires = DateTimeField(required=True, default=
+                            (datetime.datetime.utcnow() + datetime.timedelta(minutes=15)))
+                            # TODO: expire each Anonymous token after 15 minutes!
+                            # TODO: no more than 2 tokens each 15 minutes for each ip
     ownerID = IntField(default=0)
     ip_address = StringField(required=True)
     generated_on = DateTimeField(default=datetime.datetime.utcnow())
+    calls = DictField(required=True, default={
+        'create_paste': 450,
+        'get_paste': 450,
+        'delete_pastes': 450,
+        'create_user': 3,
+        'authenticate_user': 5,
+        'get_user_pastes': 90
+    })                                  '''
+                                            Here we store calls remainig for each token!
+                                            and they are reseted every 15 minutes.
+                                            defaults are:
+                                            {
+                                                'create_paste': 450,
+                                                'get_paste': 450,
+                                                'delete_pastes': 450,
+                                                'create_user': 3,
+                                                'authenticate_user': 5,
+                                                'get_user_pastes': 90,
+                                            }
+                                        '''
 
     meta = {'collection': 'tokens'}
 
