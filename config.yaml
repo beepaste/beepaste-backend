@@ -25,10 +25,17 @@ logger: &logger
             formatter: beepasteFormater
             level: INFO
             filename: beepaste.log
+        console:
+            class : logging.StreamHandler
+            formatter: beepasteFormater
+            level: INFO
+            stream: ext://sys.stdout
     loggers:
         beepaste:
             level: INFO
             handlers: [file]
+            qualname: beepaste
+            propagate: false
     root:
         level: INFO
         handlers: [file]
