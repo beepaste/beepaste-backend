@@ -1,6 +1,6 @@
 import datetime
-from SanicMongo import Document, connect
-from SanicMongo.fields import (IntField, DateTimeField, StringField, URLField
+from SanicMongo import Document
+from SanicMongo.fields import (IntField, DateTimeField, StringField, URLField,
                                 BooleanField)
 import json
 
@@ -25,7 +25,7 @@ validSyntax = {'abap', 'abc', 'actionscript', 'ada', 'apache_conf', 'applescript
                'textile', 'toml', 'twig', 'typescript', 'vala', 'vbscript', 'velocity',
                'verilog', 'vhdl', 'xml', 'xquery', 'yaml'}
 
-class Paste(Model):
+class Paste(Document):
     """
     The PASTE class have attributes for a paste such as raw text (encoded in Base64),
     pasteDate and expiretDate and so on! This class is developing.

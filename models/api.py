@@ -3,7 +3,7 @@ import string
 from random import *
 
 import jwt
-from SanicMongo import Document, connect
+from SanicMongo import Document
 from SanicMongo.fields import (IntField, DateTimeField, StringField, DictField)
 
 
@@ -28,19 +28,19 @@ class Api(Document):
         'create_user': 3,
         'authenticate_user': 5,
         'get_user_pastes': 90
-    })                                  '''
-                                            Here we store calls remainig for each token!
-                                            and they are reseted every 15 minutes.
-                                            defaults are:
-                                            {
-                                                'create_paste': 450,
-                                                'get_paste': 450,
-                                                'delete_pastes': 450,
-                                                'create_user': 3,
-                                                'authenticate_user': 5,
-                                                'get_user_pastes': 90,
-                                            }
-                                        '''
+    })                                  #'''
+                                        #    Here we store calls remainig for each token!
+                                        #    and they are reseted every 15 minutes.
+                                        #    defaults are:
+                                        #    {
+                                        #        create_paste: 450,
+                                        #        get_paste: 450,
+                                        #        delete_pastes: 450,
+                                        #        create_user: 3,
+                                        #        authenticate_user: 5,
+                                        #        get_user_pastes: 90,
+                                        #    }
+                                        #'''
 
     meta = {'collection': 'tokens'}
 
