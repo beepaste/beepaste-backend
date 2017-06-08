@@ -3,7 +3,7 @@ from sanic import Sanic
 from sanic.response import json
 from SanicMongo import connect
 
-from api import views, tools
+from api.blueprints import api_v1
 from tools import get_config, get_logger
 
 logger = get_logger('beepaste')
@@ -17,7 +17,7 @@ logger.info('connected to mongodb')
 
 app = Sanic('beepaste')
 
-tools.add_api_routes(app)
+app.blueprint(api_v1)
 
 if __name__ == "__main__":
     logger.info('Starting server')
