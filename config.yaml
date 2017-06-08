@@ -36,6 +36,16 @@ logger: &logger
             handlers: [file]
             qualname: beepaste
             propagate: false
+        sanic:
+            level: INFO
+            handlers: [file]
+            qualname: sanic
+            propagate: false
+        network:
+            level: INFO
+            handlers: [file]
+            qualname: network
+            propagate: false
     root:
         level: INFO
         handlers: [file]
@@ -44,3 +54,4 @@ web_server:
     port : 8080
     host : localhost
     workers: 8
+    log_config: *logger
