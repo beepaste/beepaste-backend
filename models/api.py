@@ -3,8 +3,8 @@ import string
 from random import *
 
 import jwt
-from asymongo import Document, connect
-from asymongo.fields import (IntField, DateTimeField, StringField, DictField)
+from SanicMongo import Document, connect
+from SanicMongo.fields import (IntField, DateTimeField, StringField, DictField)
 
 
 class Api(Document):

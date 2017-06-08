@@ -1,7 +1,7 @@
 import yaml
 from sanic import Sanic
 from sanic.response import json
-from asymongo import connect
+from SanicMongo import connect
 
 from api import views, tools
 from tools import get_config, get_logger

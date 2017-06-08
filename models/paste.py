@@ -1,6 +1,6 @@
 import datetime
-from asymongo import Document, connect
-from asymongo.fields import (IntField, DateTimeField, StringField, URLField
+from SanicMongo import Document, connect
+from SanicMongo.fields import (IntField, DateTimeField, StringField, URLField
                                 BooleanField)
 import json
 

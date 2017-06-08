@@ -1,6 +1,5 @@
 from tools import get_config, get_logger
 from models.paste import Paste
-from db.mongodb import MongoDB
 from sanic.response import json
 from models.api import Api
 import datetime
