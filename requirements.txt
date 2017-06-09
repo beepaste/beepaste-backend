@@ -1,5 +1,6 @@
 aiofiles==0.3.1
-asymongo==0.9.4
+# asymongo==0.9.4
+git+https://github.com/beepaste/SanicMongo.git
 blinker==1.4
 greenlet==0.4.5
 httptools==0.0.9
