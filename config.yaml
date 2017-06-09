@@ -1,9 +1,5 @@
 mongodb:
-    host: localhost
-    port:  27017
-    username: admin
-    password: saeU0T8x1AOz
-    database: admin
+        host: mongodb://username:password@localhost:27017/dbname
 
 redis:
     host: localhost
@@ -25,8 +21,8 @@ logger: &logger
             formatter: beepasteFormater
             level: INFO
             filename: beepaste.log
-            maxBytes: 52428800
-            backupCount: 20
+            # maxBytes: 52428800
+            # backupCount: 20
         console:
             class : logging.StreamHandler
             formatter: beepasteFormater
