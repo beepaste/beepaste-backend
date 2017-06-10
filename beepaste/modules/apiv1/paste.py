@@ -62,8 +62,6 @@ class Paste(Document):
         count = await Paste.objects(uri=new_uri).count()
         while count > 0:
             new_uri = self.generate_uri()
-            print('----')
-            print(new_uri)
             count = await Paste.objects(uri=new_uri).count()
 
         self.uri = new_uri
