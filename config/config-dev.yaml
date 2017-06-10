@@ -1,5 +1,5 @@
 mongodb:
-        host: mongodb://username:password@localhost:27017/dbname
+        host: mongodb://localhost:27017/beepaste
 
 redis:
     host: localhost
