@@ -28,10 +28,10 @@ async def post_paste(request):
         return resp.json(ret_data)
     except ValidationError as e:
         print(e)
-        return json({'status': 'fail', 'details': 'invalid data'}, status=400)
+        return json.loads({'status': 'fail', 'details': 'invalid data'}, status=400)
     except Exception as e:
         print(e)
-        return json({'status': 'fail', 'details': 'server error'}, status=500)
+        return json.loads({'status': 'fail', 'details': 'server error'}, status=500)
 
 async def new_api_token(request):
     # TODO move to another modules
@@ -39,4 +39,4 @@ async def new_api_token(request):
     generates new api-key if it was ok
     (no more than 5 tokens in 15minutes)
     '''
-    return json({'stat': 'received'})
+    return json.loads({'stat': 'received'})
