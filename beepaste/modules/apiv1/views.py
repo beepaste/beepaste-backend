@@ -25,7 +25,7 @@ async def post_paste(request):
             'status': 'success',
             'paste': new_paste_obj
         }
-        return json(ret_data)
+        return json.dumps(ret_data)
     except ValidationError as e:
         print(e)
         return json({'status': 'fail', 'details': 'invalid data'}, status=400)
