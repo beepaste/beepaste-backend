@@ -22,20 +22,7 @@ async def post_paste(request):
     try:
         # TODO: set ownerID using the token used to authorize api!
         new_paste.views = 0
-        new_paste.generate_url()
-        #new_uri = new_paste.generate_uri()
-        #loop = uvloop.new_event_loop()
-        #asyncio.set_event_loop(loop)
-        #count = loop.run_until_complete(Paste.objects(uri=new_uri).count())
-        #count = Paste.objects(uri=new_uri).count()
-        #while count > 0:
-        #    new_uri = self.generate_uri()
-        #    count = loop.run_until_complete(Paste.objects(uri=new_uri).count())
-            #count = await Paste.objects(uri=new_uri).count()
-        #new_paste.uri = new_uri
-        #access_token = get_config('bitly')['token']
-        #shortener = Shortener('Bitly', bitly_token=access_token)
-        #new_paste.shorturl = shortener.short(url)
+        await new_paste.generate_url()
         new_paste.validate()
         new_paste.save()
         return json({'status': 'success', 'paste': new_paste.to_mongo()})
