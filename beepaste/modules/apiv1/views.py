@@ -1,7 +1,7 @@
 from beepaste.utils.config import get_config
 from .paste import Paste
 from .api import Api
-from sanic.response import json
+import sanic.response as resp
 import datetime
 from mongoengine.errors import ValidationError
 import json
@@ -25,7 +25,7 @@ async def post_paste(request):
             'status': 'success',
             'paste': new_paste_obj
         }
-        return json.dumps(ret_data)
+        return resp.json(ret_data)
     except ValidationError as e:
         print(e)
         return json({'status': 'fail', 'details': 'invalid data'}, status=400)
