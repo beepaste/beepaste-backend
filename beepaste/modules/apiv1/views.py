@@ -5,7 +5,7 @@ import sanic.response as resp
 import datetime
 from mongoengine.errors import ValidationError
 import json
-
+from beepaste import logger
 
 async def get_paste(request):
     counter = request['session']['counter']
@@ -51,7 +51,35 @@ async def post_paste(request):
                 {'status': 'fail', 'details': 'server error'},
                 status=500)
 
+
 async def new_api_token(request):
+    from beepaste.events import redis
+    try:
+        limits = get_config('limits')
+    except Exception:
+        logger.critical('config file not found.. aborting')
+        return resp.json(
+            {'status': 'fail', 'details': 'server error'},
+            status=500)
+    try:
+        all_keys = await redis.redis.connection.mget_aslist(request.ip)
+        if len(all_keys) < limits.get(token_for_ip):
+            new_api = Api()
+            new_api.genSecret()
+            new_api.genToken()
+            await redis.redis.connection.set(request.ip, new_api.token)
+            redis.redis.connection.expire(request.ip, limits.get(reset_timeout))
+            new_api.save()
+        else:
+            logger.info('too many connections for ip{}'.format(request.ip))
+            return resp.json(
+                {'status': 'fail', 'details': 'too many connections'},
+                status=201)
+    except Exception:
+        logger.critical('connection to Redis failed')
+        return resp.json(
+            {'status': 'fail', 'details': 'server error'},
+            status=500)
     # TODO move to another modules
     '''
     generates new api-key if it was ok
