@@ -5,6 +5,8 @@ redis:
     host: localhost
     port: 6379
     password: my secret password
+    poolsize: 10
+    db: 0
 
 api:
     use_anonymous: yes
