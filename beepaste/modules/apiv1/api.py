@@ -14,10 +14,10 @@ class Api(Document):
 
     secret = StringField(required=True)
     token = StringField(required=True)
-    expires = DateTimeField(required=True, default=
-                            (datetime.datetime.utcnow() + datetime.timedelta(minutes=15)))
-                            # TODO: expire each Anonymous token after 15 minutes!
-                            # TODO: no more than 2 tokens each 15 minutes for each ip
+    expires = DateTimeField(required=True, default=(datetime.datetime.utcnow() +
+                            datetime.timedelta(minutes=15)))
+    # TODO: expire each Anonymous token after 15 minutes!
+    # TODO: no more than 2 tokens each 15 minutes for each ip
     ownerID = IntField(default=0)
     ip_address = StringField(required=True)
     generated_on = DateTimeField(default=datetime.datetime.utcnow())
@@ -34,4 +34,5 @@ class Api(Document):
             'iat': datetime.datetime.utcnow(),
             'ownerID': self.ownerID
         }
-        self.token = jwt.encode(payload, self.secret, algorithm='HS256').decode('utf-8')
+        self.token = jwt.encode(payload, self.secret,
+                                algorithm='HS256').decode('utf-8')
