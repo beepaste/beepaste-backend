@@ -1,6 +1,8 @@
 from sanic_session import RedisSessionInterface
 import asyncio_redis
 from beepaste import app
+from beepaste import logger
+from beepaste import redis_cnf
 
 
 class Redis:
@@ -13,9 +15,8 @@ class Redis:
     async def get_redis_pool(self):
         if not self._pool:
             # TODO load setting from config
-            self._pool = await asyncio_redis.Pool.create(
-                host='localhost', port=6379, poolsize=10, db=0
-            )
+            self._pool = await asyncio_redis.Pool.create(**redis_cnf)
+            logger.info('connedted to redis')
 
         return self._pool
 
