@@ -10,7 +10,13 @@ from sanic.response import text
 class PasteView(HTTPMethodView):
 
     async def get(self, request):
-        return text('I am get method')
+        userid = request['userid']
+        if userid is None:
+            return text('I am not login')
+        else:
+            return response.json({
+                "userid" : userid
+                })
 
     async def post(self, request):
         ''' saves a sent JSON object into database and returns a link to it '''
