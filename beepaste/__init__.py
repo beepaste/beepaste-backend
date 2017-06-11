@@ -8,6 +8,7 @@ logger = get_logger('beepaste')
 # config
 web_cnf = get_config('web_server')
 mongo_cnf = get_config('mongodb')
+redis_cnf = get_config('redis')
 
 # load sanic application
 app = Sanic('beepaste')
