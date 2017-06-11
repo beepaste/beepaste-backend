@@ -6,6 +6,8 @@ import datetime
 from mongoengine.errors import ValidationError
 import json
 from beepaste import logger
+from beepaste.events import redis
+
 
 async def get_paste(request):
     counter = request['session']['counter']
@@ -53,7 +55,6 @@ async def post_paste(request):
 
 
 async def new_api_token(request):
-    from beepaste.events import redis
     try:
         limits = get_config('limits')
     except Exception:
