@@ -14,8 +14,8 @@ redis_cnf = get_config('redis')
 app = Sanic('beepaste')
 
 # load events after app running
-# TODO fix
-from beepaste.events import redis  # noqa
+# TODO fix use somthing like after server start
+from beepaste.events import stat  # noqa
 from beepaste.events import analytic  # noqa
 from beepaste.events import xss  # noqa
 from beepaste.events import mongo  # noqa
