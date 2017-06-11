@@ -8,6 +8,8 @@ from .schemas import loginSchema
 class AuthView(HTTPMethodView):
 
     async def get(self, request):
+        ''' User Profile'''
+
         userid = request['userid']
         if userid is None:
             return response.json({
@@ -17,11 +19,13 @@ class AuthView(HTTPMethodView):
                 "desc" : "send token with X-TOKEN header parameter"
                 })
         else:
+            user = UserModel.getById(userid)
             return response.json({
-                "user": "profile"
+                "user": user
                 })
 
     async def post(self, request):
+        '''this is for login , logout not required for token base auth'''
 
         input_json = request.json
         safe_data, errors = loginSchema().load(input_json)
