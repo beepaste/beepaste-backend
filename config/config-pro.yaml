@@ -9,6 +9,12 @@ redis:
 api:
     use_anonymous: yes
 
+bitly:
+    token: ihjwb498ubo4v898b9ebuojmdvmbdjkgoipj42us
+
+cron:
+    key: ihjwb498ubo4v898b9ebuojmdvmbdjkgoipj42us
+
 logger: &logger
     version: 1
     formatters:
