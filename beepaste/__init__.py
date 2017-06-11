@@ -6,9 +6,12 @@ from beepaste.modules import modulePaste, moduleAuth, moduleStat, moduleDoc
 logger = get_logger('beepaste')
 
 # config
-web_cnf = get_config('web_server')
+# TODO all config to some variable like setting or somthing like that
+# available of request !
+web_cnf = get_config('app')
 mongo_cnf = get_config('mongodb')
 redis_cnf = get_config('redis')
+jwt_cnf = get_config('jwt')
 
 # load sanic application
 app = Sanic('beepaste')

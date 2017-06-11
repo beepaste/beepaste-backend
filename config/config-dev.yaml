@@ -66,9 +66,13 @@ logger: &logger
         level: INFO
         handlers: [file]
 
-web_server:
+app:
     port : 8080
     host : localhost
     workers: 8
     log_config: *logger
     debug: True
+
+jwt:
+    secret: secret # TODO on production use some safe string
+    algorithm: SH256
