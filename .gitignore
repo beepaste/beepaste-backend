@@ -3,3 +3,4 @@
 *.DS_STORE
 *.pem
 env/*
+__pycache__/
