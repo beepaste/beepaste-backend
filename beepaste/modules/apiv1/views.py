@@ -74,11 +74,12 @@ async def new_api_token(request):
             await redis.redis.connection.set(request.ip, new_api.token)
             redis.redis.connection.expire(request.ip, limits.get(reset_timeout))
             new_api.save()
+            return resp.json({'status': 'success', 'details': new_api.token}, status=201)
         else:
             logger.info('too many connections for ip{}'.format(request.ip))
             return resp.json(
                 {'status': 'fail', 'details': 'too many connections'},
-                status=201)
+                status=405)
     except Exception:
         logger.critical('connection to Redis failed')
         return resp.json(
