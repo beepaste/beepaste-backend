@@ -26,7 +26,7 @@ logger: &logger
             class : logging.FileHandler
             formatter: beepasteFormater
             level: INFO
-            filename: ./logs/beepaste.log
+            filename: beepaste.log
             # maxBytes: 52428800
             # backupCount: 20
         console:
