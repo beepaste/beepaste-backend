@@ -1,4 +1,4 @@
-from sanic_session import RedisSessionInterface
+from beepaste.plugins.stat.stat import RedisSessionInterface
 import asyncio_redis
 from beepaste import app
 from beepaste import logger

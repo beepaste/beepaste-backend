@@ -11,7 +11,7 @@ from .field import validEncriptions, validSyntax
 
 
 
-class Paste(Document):
+class PasteModel(Document):
     """
         The PASTE class have attributes for a paste such as
         raw text (encoded inBase64),

@@ -1,7 +1,7 @@
 from sanic import Sanic
 from beepaste.utils.config import get_config
 from beepaste.utils.logger import get_logger
-from beepaste.modules import modulePaste, moduleAuth
+from beepaste.modules import modulePaste, moduleAuth, moduleStat
 
 logger = get_logger('beepaste')
 
@@ -23,3 +23,4 @@ from beepaste.events import mongo  # noqa
 # add modules
 app.blueprint(modulePaste, url_prefix='api/v1/paste')
 app.blueprint(moduleAuth, url_prefix='api/v1/auth')
+app.blueprint(moduleStat, url_prefix='api/v1/stat')

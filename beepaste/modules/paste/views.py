@@ -2,7 +2,7 @@ import datetime
 import json
 from sanic import response
 from mongoengine.errors import ValidationError
-from .models import Paste
+from .models import PasteModel as paste  # TODO fix
 from sanic.views import HTTPMethodView
 from sanic.response import text
 
@@ -10,15 +10,7 @@ from sanic.response import text
 class PasteView(HTTPMethodView):
 
     async def get(self, request):
-        counter = request['session']['counter']
-        path = request['session']['path']
-        ip = request['session']['ip']
-        return response.json({
-                "hello": "world",
-                "counter": counter,
-                "ip": ip,
-                "path": path
-                })
+        return text('I am get method')
 
     async def post(self, request):
         ''' saves a sent JSON object into database and returns a link to it '''
