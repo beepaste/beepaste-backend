@@ -1,13 +1,14 @@
-from beepaste.utils.config import get_config
-from .paste import Paste
-from .api import Api
-import sanic.response as resp
 import datetime
-from mongoengine.errors import ValidationError
 import json
+
+import sanic.response as resp
 from beepaste import logger
 from beepaste.events import redis
+from beepaste.utils.config import get_config
+from mongoengine.errors import ValidationError
 
+from .api import Api
+from .paste import Paste
 
 async def get_paste(request):
     counter = request['session']['counter']
