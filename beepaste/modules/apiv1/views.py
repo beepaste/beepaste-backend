@@ -79,7 +79,7 @@ async def new_api_token(request):
             logger.info('too many connections for ip{}'.format(request.ip))
             return resp.json(
                 {'status': 'fail', 'details': 'too many connections'},
-                status=405)
+                status=429)
     except Exception:
         logger.critical('connection to Redis failed')
         return resp.json(
