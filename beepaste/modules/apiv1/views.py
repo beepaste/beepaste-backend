@@ -5,7 +5,6 @@ import sanic.response as resp
 import datetime
 from mongoengine.errors import ValidationError
 import json
-from sanic.response import text
 
 
 async def get_paste(request):
@@ -24,8 +23,8 @@ async def post_paste(request):
     input_json = request.json
     # TODO validation with some lib like marshmallow
     # https://github.com/marshmallow-code/marshmallow
-    # not use try catch if validate faild return error from marshmallow 
-    # else pass to the model 
+    # not use try catch if validate faild return error from marshmallow
+    # else pass to the model
     new_paste = Paste(**input_json)
     try:
         # TODO: set ownerID using the token used to authorize api!
@@ -38,15 +37,17 @@ async def post_paste(request):
             'status': 'success',
             'paste': new_paste_obj
         }
-        return resp.json(ret_data)
+        return resp.json(
+            {'status': 'success', 'paste': new_paste_obj},
+            ,status=201)
     except ValidationError as e:
         print(e)
-        return json.loads(
-                {'status': 'fail', 'details': 'invalid data'}, 
+        return resp.json(
+                {'status': 'fail', 'details': 'invalid data'},
                 status=400)
     except Exception as e:
         print(e)
-        return json.loads(
+        return resp.json(
                 {'status': 'fail', 'details': 'server error'},
                 status=500)
 
@@ -56,4 +57,4 @@ async def new_api_token(request):
     generates new api-key if it was ok
     (no more than 5 tokens in 15minutes)
     '''
-    return json.loads({'stat': 'received'})
+    return resp.json({'stat': 'received'})
