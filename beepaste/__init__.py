@@ -1,7 +1,7 @@
 from sanic import Sanic
 from beepaste.utils.config import get_config
 from beepaste.utils.logger import get_logger
-from beepaste.modules import moduleApiV1
+from beepaste.modules import modulePaste, moduleAuth
 
 logger = get_logger('beepaste')
 
@@ -13,10 +13,13 @@ redis_cnf = get_config('redis')
 # load sanic application
 app = Sanic('beepaste')
 
-from beepaste.events import redis
-from beepaste.events import analytic
-from beepaste.events import xss
-from beepaste.events import mongo
+# load events after app running
+# TODO fix
+from beepaste.events import redis  # noqa
+from beepaste.events import analytic  # noqa
+from beepaste.events import xss  # noqa
+from beepaste.events import mongo  # noqa
 
 # add modules
-app.blueprint(moduleApiV1, url_prefix='api/v1')
+app.blueprint(modulePaste, url_prefix='api/v1/paste')
+app.blueprint(moduleAuth, url_prefix='api/v1/auth')
