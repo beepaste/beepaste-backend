@@ -8,6 +8,16 @@ redis:
     poolsize: 10
     db: 0
 
+limits:
+    reset_timeout: 900
+    token_for_ip: 5
+    create_paste: 450
+    get_paste: 450
+    delete_pastes: 450
+    create_user: 3
+    authenticate_user: 5
+    get_user_pastes: 90
+
 api:
     use_anonymous: yes
 
