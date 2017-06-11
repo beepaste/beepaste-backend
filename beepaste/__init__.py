@@ -9,11 +9,13 @@ logger = get_logger('beepaste')
 web_cnf = get_config('web_server')
 mongo_cnf = get_config('mongodb')
 
-def app():
-    # load sanic application
-    app = Sanic('beepaste')
+# load sanic application
+app = Sanic('beepaste')
 
-    # add modules
-    app.blueprint(moduleApiV1, url_prefix='api/v1')
+from beepaste.events import redis
+from beepaste.events import analytic
+from beepaste.events import xss
+from beepaste.events import mongo
 
-    return app
+# add modules
+app.blueprint(moduleApiV1, url_prefix='api/v1')
