@@ -10,6 +10,7 @@ from mongoengine.errors import ValidationError
 from .api import Api
 from .paste import Paste
 
+
 async def get_paste(request):
     counter = request['session']['counter']
     path = request['session']['path']
@@ -20,6 +21,7 @@ async def get_paste(request):
                 "ip": ip,
                 "path": path
                 })
+
 
 async def post_paste(request):
     ''' saves a sent JSON object into database and returns a link to it '''
@@ -42,7 +44,7 @@ async def post_paste(request):
         }
         return resp.json(
             {'status': 'success', 'paste': new_paste_obj},
-            ,status=201)
+            status=201)
     except ValidationError as e:
         print(e)
         return resp.json(
