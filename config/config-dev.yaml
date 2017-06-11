@@ -59,3 +59,4 @@ web_server:
     host : localhost
     workers: 8
     log_config: *logger
+    debug: True
