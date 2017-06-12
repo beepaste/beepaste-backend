@@ -1,9 +1,6 @@
 from sanic import Sanic
 from beepaste.utils.config import get_config
-from beepaste.utils.logger import get_logger
-from beepaste.modules import modulePaste, moduleAuth, moduleStat, moduleDoc
-
-logger = get_logger('beepaste')
+from beepaste.utils.logger import logger
 
 # config
 # TODO all config to some variable like setting or somthing like that
@@ -12,12 +9,14 @@ web_cnf = get_config('app')
 mongo_cnf = get_config('mongodb')
 redis_cnf = get_config('redis')
 jwt_cnf = get_config('jwt')
+logger.info('config loaded')
 
 # load sanic application
 app = Sanic('beepaste')
 
 # load events after app running
 # TODO fix use somthing like after server start
+from beepaste.modules import modulePaste, moduleAuth, moduleStat, moduleDoc
 from beepaste.events import stat  # noqa
 from beepaste.events import auth  # noqa
 from beepaste.events import analytic  # noqa
