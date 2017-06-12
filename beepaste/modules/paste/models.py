@@ -41,10 +41,10 @@ class PasteModel(Document):
 
     async def generate_url(self):
         new_uri = self.generate_uri()
-        count = await Paste.objects(uri=new_uri).count()
+        count = await PasteModel.objects(uri=new_uri).count()
         while count > 0:
             new_uri = self.generate_uri()
-            count = await Paste.objects(uri=new_uri).count()
+            count = await PasteModel.objects(uri=new_uri).count()
 
         self.uri = new_uri
         # access_token = get_config('bitly')['token']
