@@ -48,7 +48,7 @@ class PasteView(HTTPMethodView):
                         'errors': e.to_dict()},
                     status=400)
         except Exception as e:
-            logger.error('failed with ' str(e.to_dict()))
+            logger.error('failed with ' + str(e.to_dict()))
             return response.json(
                     {'status': 'fail', 'details': 'server error'},
                     status=500)
