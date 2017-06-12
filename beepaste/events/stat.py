@@ -2,6 +2,9 @@ from beepaste.plugins.stat.stat import RedisStatInterface
 from beepaste import app
 from beepaste.redis import redis
 
+
+# TODO: remove this shit!
+
 # pass the getter method for the connection pool into the session
 session_interface = RedisStatInterface(redis.get_redis_pool)
 
