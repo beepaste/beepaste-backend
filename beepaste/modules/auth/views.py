@@ -12,7 +12,7 @@ class AuthView(HTTPMethodView):
         ''' User Profile'''
 
         userid = request['userid']
-        if userid is None:
+        if userid is None or userid == 0:
             return response.json(
                 {"status": "fail", "details": "not authorized"},
                 status=401)
@@ -29,7 +29,7 @@ class AuthView(HTTPMethodView):
 
     async def post(self, request):
         '''this is for login , logout not required for token base auth'''
-
+        # TODO: generate token for anonymous users based on ip!
         input_json = request.json
         safe_data, errors = loginSchema().load(input_json)
         if errors:
@@ -48,5 +48,7 @@ class AuthView(HTTPMethodView):
                 encoded = jwt.encode(
                         {'userid': userid}, jwt_cnf['secret'],
                         algorithm=jwt_cnf['algorithm'])
+                # TODO: save generated token to database (both redis and mongo)
+                # TODO: generate secret-key for each token!
                 return response.json(
                         {'status': 'success', "X-TOKEN": encoded})
