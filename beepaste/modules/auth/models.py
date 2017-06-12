@@ -3,6 +3,8 @@ from SanicMongo.fields import (EmailField, DateTimeField, StringField, IntField)
 import datetime
 import json
 from passlib.hash import sha512_crypt
+# TODO: add more fields to model!
+# TODO: enable oauth
 
 
 class UserModel(Document):
