@@ -45,7 +45,7 @@ class PasteView(HTTPMethodView):
         except ValidationError as e:
             return response.json(
                     {'status': 'fail', 'details': 'invalid data',
-                        'errors', e.to_dict()},
+                        'errors': e.to_dict()},
                     status=400)
         except Exception as e:
             logger.error('failed with ' str(e.to_dict()))
