@@ -4,19 +4,21 @@ from sanic import response
 from mongoengine.errors import ValidationError
 from .models import PasteModel as paste  # TODO fix
 from sanic.views import HTTPMethodView
-from sanic.response import text
+from beepaste import logger
 
 
 class PasteView(HTTPMethodView):
 
     async def get(self, request):
+        ''' fetching paste by pasteid from database '''
         userid = request['userid']
         if userid is None:
-            return text('I am not login')
+            return response.json(
+                {'status': 'fail', 'details': 'user not authenticated'},
+                status=401)
         else:
-            return response.json({
-                    "userid": userid
-                    })
+            # TODO: get paste by id
+            return response.text('incomplete!')
 
     async def post(self, request):
         ''' saves a sent JSON object into database and returns a link to it '''
@@ -41,12 +43,12 @@ class PasteView(HTTPMethodView):
                 {'status': 'success', 'paste': new_paste_obj},
                 status=201)
         except ValidationError as e:
-            print(e)
             return response.json(
-                    {'status': 'fail', 'details': 'invalid data'},
+                    {'status': 'fail', 'details': 'invalid data',
+                        'errors', e.to_dict()},
                     status=400)
         except Exception as e:
-            print(e)
+            logger.error('failed with ' str(e.to_dict()))
             return response.json(
                     {'status': 'fail', 'details': 'server error'},
                     status=500)
