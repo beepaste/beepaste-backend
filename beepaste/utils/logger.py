@@ -8,3 +8,6 @@ def get_logger(logger_name=''):
     dictConfig(logging_config)
     logger = logging.getLogger(logger_name)
     return logger
+
+
+logger = get_logger('beepaste')
