@@ -1,10 +1,9 @@
 import datetime
 import json
 from sanic import response
-from mongoengine.errors import ValidationError
-from .models import PasteModel as paste  # TODO fix
+from mongoengine.errors import ValidationError, FieldDoesNotExist
+from .models import PasteModel as Paste  # TODO fix
 from sanic.views import HTTPMethodView
-from beepaste import logger
 
 
 class PasteView(HTTPMethodView):
@@ -27,9 +26,9 @@ class PasteView(HTTPMethodView):
         # https://github.com/marshmallow-code/marshmallow
         # not use try catch if validate faild return error from marshmallow
         # else pass to the model
-        new_paste = Paste(**input_json)
         try:
             # TODO: set ownerID using the token used to authorize api!
+            new_paste = Paste(**input_json)
             new_paste.views = 0
             await new_paste.generate_url()
             new_paste.validate()
@@ -47,11 +46,12 @@ class PasteView(HTTPMethodView):
                     {'status': 'fail', 'details': 'invalid data',
                         'errors': e.to_dict()},
                     status=400)
-        except Exception as e:
-            logger.error('failed with ' + str(e.to_dict()))
+        except FieldDoesNotExist as e:
             return response.json(
-                    {'status': 'fail', 'details': 'server error'},
-                    status=500)
+                    {'status': 'fail', 'details': 'invalid data'},
+                    status=400)
+
+        # TODO: handle other exceptions!
 
     async def put(self, request):
         return text('I am put method')
