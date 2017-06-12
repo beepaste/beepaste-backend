@@ -20,7 +20,7 @@ class PasteModel(Document):
     author = StringField(default="Anonymous", max_length=127)
     title = StringField(default="Untitled", max_length=127)
     shorturl = URLField(default="https://beepaste.io/")
-    uri = StringField(required=True, min_length=6, max_length=6)
+    uri = StringField(required=True, min_length=6, max_length=6, unique=True)
 
     date = DateTimeField(default=datetime.datetime.utcnow())
     expiryDate = DateTimeField(default=datetime.datetime.utcnow())
