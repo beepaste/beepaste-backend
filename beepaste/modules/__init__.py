@@ -6,9 +6,9 @@ from beepaste.modules.doc.routes import init_doc_routes
 
 # init modules
 modulePaste = Blueprint('api/v1/paste', url_prefix='/api/v1/paste')
-moduleAuth = Blueprint('api/v1/auth', url_prefix= '/api/v1/auth')
-moduleStat = Blueprint('api/v1/stat', url_prefix= '/api/v1/stat')
-moduleDoc = Blueprint('api/v1', url_prefix= '/api/v1')
+moduleAuth = Blueprint('api/v1/auth', url_prefix='/api/v1/auth')
+moduleStat = Blueprint('api/v1/stat', url_prefix='/api/v1/stat')
+moduleDoc = Blueprint('api/v1', url_prefix='/api/v1')
 
 # init modules routes # TODO improve name
 init_paste_routes(modulePaste)
