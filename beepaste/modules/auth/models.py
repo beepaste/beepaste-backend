@@ -20,5 +20,5 @@ class UserModel(Document):
         # TODO get user id from mongodb and return safe parameter
         return {
                 "name": "beepaste",
-                "somthing" : "somedata from user"
+                "somthing": "somedata from user"
                 }

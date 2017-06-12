@@ -13,10 +13,10 @@ class AuthView(HTTPMethodView):
         userid = request['userid']
         if userid is None:
             return response.json({
-                "success" : "false",
-                "error" : "x",
-                "msg" : "you are not login",
-                "desc" : "send token with X-TOKEN header parameter"
+                "success": "false",
+                "error": "x",
+                "msg": "you are not login",
+                "desc": "send token with X-TOKEN header parameter"
                 })
         else:
             user = UserModel.getById(userid)
@@ -29,10 +29,10 @@ class AuthView(HTTPMethodView):
 
         input_json = request.json
         safe_data, errors = loginSchema().load(input_json)
-        if errors :
+        if errors:
             return response.json({
-                "success" : "false",
-                "msg" : errors
+                "success": "false",
+                "msg": errors
                 })
         else:
             userid = await UserModel.authorize(

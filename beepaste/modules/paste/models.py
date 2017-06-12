@@ -10,7 +10,6 @@ from random import choice
 from .field import validEncriptions, validSyntax
 
 
-
 class PasteModel(Document):
     """
         The PASTE class have attributes for a paste such as
