@@ -75,4 +75,4 @@ app:
 
 jwt:
     secret: secret # TODO on production use some safe string
-    algorithm: SH256
+    algorithm: HS512
