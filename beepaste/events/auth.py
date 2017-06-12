@@ -19,7 +19,6 @@ async def checkAuth(request):
             return response.json(
                 {'status': 'fail', 'details': 'token expired'},
                 status=400)
-        # TODO check if token not decoded or validate some response to user
         request['userid'] = decodetoken['userid']
     else:
         request['userid'] = None
