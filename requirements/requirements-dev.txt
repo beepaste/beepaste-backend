@@ -1,12 +1,15 @@
 aiofiles==0.3.1
+asyncio-redis==0.14.3
 blinker==1.4
 certifi==2017.4.17
 chardet==3.0.4
 greenlet==0.4.5
 httptools==0.0.9
 idna==2.5
+marshmallow==2.13.5
 mongoengine==0.13.0
 motor==1.1
+passlib==1.7.1
 PyJWT==1.5.0
 pymongo==3.4.0
 pyshorteners==0.6.1
@@ -19,5 +22,3 @@ ujson==1.35
 urllib3==1.21.1
 uvloop==0.8.0
 websockets==3.3
-pyshorteners==0.6.1
-marshmallow==2.13.5

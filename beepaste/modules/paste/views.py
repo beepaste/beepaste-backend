@@ -43,21 +43,26 @@ class PasteView(HTTPMethodView):
                 status=201)
         except ValidationError as e:
             return response.json(
-                    {'status': 'fail', 'details': 'invalid data',
-                        'errors': e.to_dict()},
-                    status=400)
+                {'status': 'fail', 'details': 'invalid data', 'errors': e.to_dict()},
+                status=400)
         except FieldDoesNotExist as e:
             return response.json(
-                    {'status': 'fail', 'details': 'invalid data'},
-                    status=400)
+                {'status': 'fail', 'details': 'invalid data'},
+                status=400)
 
         # TODO: handle other exceptions!
 
     async def put(self, request):
-        return text('I am put method')
+        return response.json(
+            {'status': 'fail', 'details': 'Method Not Implemented'},
+            status=501)
 
     async def patch(self, request):
-        return text('I am patch method')
+        return response.json(
+            {'status': 'fail', 'details': 'Method Not Implemented'},
+            status=501)
 
     async def delete(self, request):
-        return text('I am delete method')
+        return response.json(
+            {'status': 'fail', 'details': 'Method Not Implemented'},
+            status=501)
