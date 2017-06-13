@@ -8,16 +8,25 @@ from sanic.views import HTTPMethodView
 
 class PasteView(HTTPMethodView):
 
-    async def get(self, request):
+    async def get(self, request, **kwargs):
         ''' fetching paste by pasteid from database '''
         userid = request['userid']
         if userid is None:
             return response.json(
-                {'status': 'fail', 'details': 'user not authenticated'},
+                {'status': 'fail', 'details': 'user is not authenticated'},
                 status=401)
         else:
-            # TODO: get paste by id
-            return response.text('incomplete!')
+            try:
+                paste_id = kwargs.get('pasteid')
+                paste = await Paste.objects(uri=paste_id).first()
+                if paste.expiryDate < datetime.datetime.now():
+                    return response.json({'status': 'success', 'details': paste}, status=200)
+                else:
+                    paste.delete()
+                    return response.json({'status': 'fail', 'details': "This paste has been expired"}, status=410)
+                    # TOOD: Delete this from database
+            except:
+                return response.json({'status': 'fail', 'details': "Paste Not found"}, status=404)
 
     async def post(self, request):
         ''' saves a sent JSON object into database and returns a link to it '''
