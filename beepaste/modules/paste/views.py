@@ -20,11 +20,13 @@ class PasteView(HTTPMethodView):
                 paste_id = kwargs.get('pasteid')
                 paste = await Paste.objects(uri=paste_id).first()
                 if paste.expiryDate < datetime.datetime.now():
-                    return response.json({'status': 'success', 'details': paste})
+                    return response.json({'status': 'success', 'details': paste}, status=200)
                 else:
-                    return response.json({'status': 'fail', 'details': "This paste has been expired"})
+                    return response.json({'status': 'fail', 'details': "This paste has been expired"}, status=410)
+    
+                    # TOOD: Delete this from database
             except:
-                return response.json({'status': 'fail', 'details': "Paste Not found"})
+                return response.json({'status': 'fail', 'details': "Paste Not found"}, status=404)
 
     async def post(self, request):
         ''' saves a sent JSON object into database and returns a link to it '''
