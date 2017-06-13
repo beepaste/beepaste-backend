@@ -66,4 +66,3 @@ class PasteView(HTTPMethodView):
         return response.json(
             {'status': 'fail', 'details': 'Method Not Implemented'},
             status=501)
-

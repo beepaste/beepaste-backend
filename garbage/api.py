@@ -38,7 +38,6 @@ class Api(Document):
                                 algorithm='HS256').decode('utf-8')
 
 
-
 async def new_api_token(request):
     try:
         limits = get_config('limits')
