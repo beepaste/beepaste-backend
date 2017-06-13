@@ -20,10 +20,14 @@ class PasteView(HTTPMethodView):
                 paste_id = kwargs.get('pasteid')
                 paste = await Paste.objects(uri=paste_id).first()
                 if paste.expiryDate < datetime.datetime.now():
-                    return response.json({'status': 'success', 'details': paste}, status=200)
+                    return response.json(
+                        {'status': 'success', 'paste': paste},
+                        status=200)
                 else:
                     paste.delete()
-                    return response.json({'status': 'fail', 'details': "This paste has been expired"}, status=410)
+                    return response.json(
+                        {'status': 'fail', 'details': "This paste has been expired"},
+                        status=410)
                     # TOOD: Delete this from database
             except:
                 return response.json({'status': 'fail', 'details': "Paste Not found"}, status=404)
@@ -52,7 +56,8 @@ class PasteView(HTTPMethodView):
                 status=201)
         except ValidationError as e:
             return response.json(
-                {'status': 'fail', 'details': 'invalid data', 'errors': e.to_dict()},
+                {'status': 'fail', 'details': 'invalid data',
+                    'errors': e.to_dict()},
                 status=400)
         except FieldDoesNotExist as e:
             return response.json(
@@ -63,15 +68,15 @@ class PasteView(HTTPMethodView):
 
     async def put(self, request):
         return response.json(
-            {'status': 'fail', 'details': 'Method Not Implemented'},
-            status=501)
+            {'status': 'fail', 'details': 'Method Not Allowed'},
+            status=405)
 
     async def patch(self, request):
         return response.json(
-            {'status': 'fail', 'details': 'Method Not Implemented'},
-            status=501)
+            {'status': 'fail', 'details': 'Method Not Allowed'},
+            status=405)
 
     async def delete(self, request):
         return response.json(
-            {'status': 'fail', 'details': 'Method Not Implemented'},
-            status=501)
+            {'status': 'fail', 'details': 'Method Not Allowed'},
+            status=405)
