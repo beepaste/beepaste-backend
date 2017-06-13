@@ -22,8 +22,8 @@ class PasteView(HTTPMethodView):
                 if paste.expiryDate < datetime.datetime.now():
                     return response.json({'status': 'success', 'details': paste}, status=200)
                 else:
+                    paste.delete()
                     return response.json({'status': 'fail', 'details': "This paste has been expired"}, status=410)
-    
                     # TOOD: Delete this from database
             except:
                 return response.json({'status': 'fail', 'details': "Paste Not found"}, status=404)
