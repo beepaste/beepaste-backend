@@ -10,7 +10,6 @@ class AuthView(HTTPMethodView):
 
     async def get(self, request):
         ''' User Profile'''
-
         userid = request['userid']
         if userid is None or userid == 0:
             return response.json(
@@ -45,10 +44,13 @@ class AuthView(HTTPMethodView):
                     {"status": "fail", "details": "wrong username or password"},
                     status=403)
             else:
-                encoded = jwt.encode(
-                        {'userid': userid}, jwt_cnf['secret'],
+                encoded_token = jwt.encode(
+                        {'userid': userid, 'exp': datetime.datetime.utcnow() +
+                            datetime.timedelta(minutes=15)}, jwt_cnf['secret'],
                         algorithm=jwt_cnf['algorithm'])
                 # TODO: save generated token to database (both redis and mongo)
+                await redis.redis.connection.set(userid, encoded_token)
+                # Saving to Mongo requires a new Document?
                 # TODO: generate secret-key for each token!
                 return response.json(
                         {'status': 'success', "X-TOKEN": encoded})
