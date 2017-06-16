@@ -11,6 +11,7 @@ redis:
 limits:
     reset_timeout: 900
     token_for_ip: 5
+    global_tokens_for_account: 5
     create_paste: 450
     get_paste: 450
     delete_pastes: 450
