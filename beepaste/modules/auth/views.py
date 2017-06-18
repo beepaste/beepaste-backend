@@ -1,6 +1,6 @@
 from sanic.views import HTTPMethodView
 from sanic import response
-from .models import UserModel
+from .models import UserModel, TokenModel
 import jwt
 from .schemas import loginSchema
 from beepaste import jwt_cnf
@@ -30,27 +30,58 @@ class AuthView(HTTPMethodView):
         '''this is for login , logout not required for token base auth'''
         # TODO: generate token for anonymous users based on ip!
         input_json = request.json
-        safe_data, errors = loginSchema().load(input_json)
-        if errors:
-            return response.json(
-                {"status": "fail", "details": errors},
-                status=400)
-        else:
-            userid = await UserModel.authorize(
-                    safe_data['username'], safe_data['password'])
-
-            if userid is None:
+        if input_json != '{}':
+            #Login attempt
+            safe_data, errors = loginSchema().load(input_json)
+            if errors:
                 return response.json(
-                    {"status": "fail", "details": "wrong username or password"},
-                    status=403)
+                    {"status": "fail", "details": errors},
+                    status=400)
+            else:
+                userid = await UserModel.authorize(
+                        safe_data['username'], safe_data['password'])
+
+                if userid is None:
+                    return response.json(
+                        {"status": "fail", "details": "wrong username or password"},
+                        status=403)
+                else:
+                    # Get the number of tokens for this userid
+                    all_tokens = await  redis.redis.connection.mget_aslist(userid)
+                    if len(all_tokens) > 10:
+                        return response.json(
+                            {"status": "fail", "details": "too many tokens"},
+                            status=429)
+                    else:
+                        encoded_token = jwt.encode(
+                            {'userid': userid, 'exp': datetime.datetime.utcnow() +
+                                datetime.timedelta(minutes=15)}, jwt_cnf['secret'],
+                                algorithm=jwt_cnf['algorithm'])
+                        # TODO: TEST
+                        new_token = TokenModel(encoded_token)
+                        new_token.save()
+                        await redis.redis.connection.set(userid, encoded_token, ex=900)
+                        return response.json(
+                            {'status': 'success', "X-TOKEN": encoded},
+                            status=200)
+        else:
+            #Guest
+            ip = request.ip
+            # Get the number of tokens for this IP address
+            all_tokens = await  redis.redis.connection.mget_aslist(ip)
+            if len(all_tokens) > 10:
+                return response.json(
+                    {"status": "fail", "details": "too many tokens"},
+                    status=429)
             else:
                 encoded_token = jwt.encode(
-                        {'userid': userid, 'exp': datetime.datetime.utcnow() +
-                            datetime.timedelta(minutes=15)}, jwt_cnf['secret'],
+                    {'userid': userid, 'exp': datetime.datetime.utcnow() +
+                        datetime.timedelta(minutes=15)}, jwt_cnf['secret'],
                         algorithm=jwt_cnf['algorithm'])
-                # TODO: save generated token to database (both redis and mongo)
-                await redis.redis.connection.set(userid, encoded_token)
-                # Saving to Mongo requires a new Document?
-                # TODO: generate secret-key for each token!
+                # TODO: TEST
+                new_token = TokenModel(encoded_token)
+                new_token.save()
+                await redis.redis.connection.set(ip, encoded_token, ex=900)
                 return response.json(
-                        {'status': 'success', "X-TOKEN": encoded})
+                    {'status': 'success', "X-TOKEN": encoded},
+                    status=200)
