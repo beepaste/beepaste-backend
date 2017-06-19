@@ -16,8 +16,8 @@ class UserModel(Document):
                            unique=True)
     registered = DateTimeField(default=datetime.datetime.utcnow())
 
-    async def authorize(username, password):
-        curr_user = await UserModel.objects(username=username).first()
+    async def authorize(self, username, password):
+        curr_user = await self.objects(username=username).first()
         if curr_user is not None:
             if sha512_crypt.verify(password, curr_user.password):
                 userid = curr_user.userid
@@ -27,8 +27,8 @@ class UserModel(Document):
         else:
             return None
 
-    async def getById(userid):
-        curr_user = await UserModel.objects(username=username).first()
+    async def getById(self, userid):
+        curr_user = await self.objects(username=username).first()
         if curr_user is not None:
             ret_data_json = curr_user.to_json()
             ret_data = json.loads(ret_data_json)
@@ -38,3 +38,17 @@ class UserModel(Document):
 
     async def setPassword(self, password):
         self.password = sha512_crypt.hash(password)
+
+
+class TokenModel(Document):
+    token = StringField(required=True, min_length=32, max_length=512)
+    tokenid = IntField(required=True, primary_key=True)
+
+    async def getById(self, tokenid):
+        curr_id = await self.objects(tokenid=tokenid).first()
+        if curr_id is not None:
+            ret_data_json = curr_id.to_json()
+            ret_data = json.loads(ret_data_json)
+            return ret_data
+        else:
+            return None
