@@ -1,8 +1,8 @@
 from beepaste import app
 from beepaste import web_cnf
-from beepaste import logger
+from beepaste.utils.logger import lg
 
 
 if __name__ == "__main__":
-    logger.info('Starting server')
+    lg(1, 'Starting server')
     app.run(**web_cnf)

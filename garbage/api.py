@@ -5,6 +5,7 @@ from random import *
 import jwt
 from SanicMongo import Document
 from SanicMongo.fields import (IntField, DateTimeField, StringField, DictField)
+from beepaste.utils.logger import lg
 
 
 class Api(Document):
@@ -42,7 +43,7 @@ async def new_api_token(request):
     try:
         limits = get_config('limits')
     except Exception:
-        logger.critical('config file not found.. aborting')
+        lg(5, 'config file not found.. aborting')
         return resp.json(
             {'status': 'fail', 'details': 'server error'},
             status=500)
@@ -56,12 +57,12 @@ async def new_api_token(request):
             redis.redis.connection.expire(request.ip, limits.get(reset_timeout))
             new_api.save()
         else:
-            logger.info('too many connections for ip{}'.format(request.ip))
+            lg(1, 'too many connections for ip{}'.format(request.ip))
             return resp.json(
                 {'status': 'fail', 'details': 'too many connections'},
                 status=201)
     except Exception:
-        logger.critical('connection to Redis failed')
+        lg(5, 'connection to Redis failed')
         return resp.json(
             {'status': 'fail', 'details': 'server error'},
             status=500)
