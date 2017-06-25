@@ -1,4 +1,5 @@
 from .config import get_config
+import asyncio
 
 
 def get_logger(logger_name=''):
@@ -10,4 +11,12 @@ def get_logger(logger_name=''):
     return logger
 
 
-logger = get_logger('beepaste')
+async def lg(level, message):
+    logger = get_logger('beepaste')
+    loop = asyncio.get_event_loop()
+    level = {1: 'INFO',
+             2: 'DEBUG',
+             3: 'WARNING',
+             4: 'ERROR',
+             5: 'CRITICAL'}
+    await loop.run_in_executor(None, logger.log, (level.get('level', 'ERROR'), message))
