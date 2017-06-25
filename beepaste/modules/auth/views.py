@@ -3,7 +3,7 @@ from sanic import response
 from .models import UserModel, TokenModel
 import jwt
 from .schemas import loginSchema
-from beepaste import jwt_cnf
+from beepaste import jwt_cnf، limits_cnf
 
 
 class AuthView(HTTPMethodView):
@@ -46,42 +46,31 @@ class AuthView(HTTPMethodView):
                         {"status": "fail", "details": "wrong username or password"},
                         status=403)
                 else:
-                    # Get the number of tokens for this userid
-                    all_tokens = await  redis.redis.connection.mget_aslist(userid)
-                    if len(all_tokens) > 10:
-                        return response.json(
-                            {"status": "fail", "details": "too many tokens"},
-                            status=429)
-                    else:
-                        encoded_token = jwt.encode(
-                            {'userid': userid, 'exp': datetime.datetime.utcnow() +
-                                datetime.timedelta(minutes=15)}, jwt_cnf['secret'],
-                                algorithm=jwt_cnf['algorithm'])
-                        # TODO: TEST
-                        new_token = TokenModel(encoded_token)
-                        new_token.save()
-                        await redis.redis.connection.set(userid, encoded_token, ex=900)
-                        return response.json(
-                            {'status': 'success', "X-TOKEN": encoded},
-                            status=200)
+                    encoded_token = jwt.encode(
+                        {'userid': userid, 'exp': datetime.datetime.utcnow() +
+                            datetime.timedelta(minutes=limits_cnf['auth_timeout'] / 60)}, jwt_cnf['secret'],
+                            algorithm=jwt_cnf['algorithm'])
+                    # TODO: TEST
+                    new_token = TokenModel(encoded_token)
+                    new_token.save()
+                    await redis.redis.connection.set(encoded_token, "valid", ex=limits_cnf['auth_timeout'])
+                    limitsDict = limits_cnf.copy()
+                    await redis.redis.connection.set(encoded_token + '_limits', limitsDict, ex=limits_cnf['auth_timeout'])
+                    return response.json(
+                        {'status': 'success', "X-TOKEN": encoded},
+                        status=200)
         else:
             #Guest
-            ip = request.ip
-            # Get the number of tokens for this IP address
-            all_tokens = await  redis.redis.connection.mget_aslist(ip)
-            if len(all_tokens) > 10:
-                return response.json(
-                    {"status": "fail", "details": "too many tokens"},
-                    status=429)
-            else:
-                encoded_token = jwt.encode(
-                    {'userid': userid, 'exp': datetime.datetime.utcnow() +
-                        datetime.timedelta(minutes=15)}, jwt_cnf['secret'],
-                        algorithm=jwt_cnf['algorithm'])
-                # TODO: TEST
-                new_token = TokenModel(encoded_token)
-                new_token.save()
-                await redis.redis.connection.set(ip, encoded_token, ex=900)
-                return response.json(
-                    {'status': 'success', "X-TOKEN": encoded},
-                    status=200)
+            encoded_token = jwt.encode(
+                {'userid': 0, 'exp': datetime.datetime.utcnow() +
+                    datetime.timedelta(minutes=limits_cnf['reset_timeout'] / 60)}, jwt_cnf['secret'],
+                    algorithm=jwt_cnf['algorithm'])
+            # TODO: TEST
+            new_token = TokenModel(encoded_token)
+            new_token.save()
+            await redis.redis.connection.set(encoded_token, "valid", ex=limits_cnf['reset_timeout'])
+            limitsDict = limits_cnf.copy()
+            await redis.redis.connection.set(encoded_token + "_limits", limitsDict, ex=limits_cnf['reset_timeout'])
+            return response.json(
+                {'status': 'success', "X-TOKEN": encoded},
+                status=200)
