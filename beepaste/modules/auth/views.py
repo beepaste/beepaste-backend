@@ -3,7 +3,7 @@ from sanic import response
 from .models import UserModel, TokenModel
 import jwt
 from .schemas import loginSchema
-from beepaste import jwt_cnf، limits_cnf
+from beepaste import jwt_cnf, limits_cnf
 
 
 class AuthView(HTTPMethodView):
