@@ -11,7 +11,7 @@ def get_logger(logger_name=''):
     return logger
 
 
-async def lg(level, message):
+async def lg(lvl, message):
     logger = get_logger('beepaste')
     loop = asyncio.get_event_loop()
     level = {1: 'INFO',
@@ -19,4 +19,4 @@ async def lg(level, message):
              3: 'WARNING',
              4: 'ERROR',
              5: 'CRITICAL'}
-    await loop.run_in_executor(None, logger.log, (level.get('level', 'ERROR'), message))
+    await loop.run_in_executor(None, logger.log, level.get('level', 'ERROR'), message)

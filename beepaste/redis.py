@@ -13,7 +13,7 @@ class Redis:
     async def get_redis_pool(self):
         if not self._pool:
             self._pool = await asyncio_redis.Pool.create(**redis_cnf)
-            lg(1, 'connedted to redis')
+            await lg(1, 'connected to redis')
 
         return self._pool
 
