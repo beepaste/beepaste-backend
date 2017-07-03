@@ -38,17 +38,3 @@ class UserModel(Document):
 
     async def setPassword(self, password):
         self.password = sha512_crypt.hash(password)
-
-
-class TokenModel(Document):
-    token = StringField(required=True, min_length=32, max_length=512)
-    tokenid = IntField(required=True, primary_key=True)
-
-    async def getById(self, tokenid):
-        curr_id = await self.objects(tokenid=tokenid).first()
-        if curr_id is not None:
-            ret_data_json = curr_id.to_json()
-            ret_data = json.loads(ret_data_json)
-            return ret_data
-        else:
-            return None
