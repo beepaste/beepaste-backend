@@ -2,7 +2,7 @@ import datetime
 import json
 from sanic import response
 from mongoengine.errors import ValidationError, FieldDoesNotExist
-from .models import PasteModel as Paste  # TODO fix
+from beepaste.modules.v1.models.paste import PasteModel as Paste  # TODO fix
 from sanic.views import HTTPMethodView
 
 

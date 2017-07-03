@@ -4,10 +4,10 @@ from SanicMongo.fields import (IntField, DateTimeField, StringField, URLField,
                                BooleanField)
 import json
 from pyshorteners import Shortener
-from beepaste.utils.config import get_config
+# TODO: importing bitly config!
 import string
 from random import choice
-from .field import validEncriptions, validSyntax
+from .pasteFields import validEncriptions, validSyntax
 
 
 class PasteModel(Document):

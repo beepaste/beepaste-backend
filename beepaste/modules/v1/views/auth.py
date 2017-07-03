@@ -1,7 +1,7 @@
 from sanic.views import HTTPMethodView
 from sanic import response
-from .models import UserModel
-from .schemas import loginSchema
+from beepaste.modules.v1.models.user import UserModel
+from beepaste.modules.v1.schemas.login import loginSchema
 from beepaste.utils.tokens import create_token
 from beepaste import limits_cnf
 import datetime

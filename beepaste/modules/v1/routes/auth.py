@@ -1,4 +1,4 @@
-from .views import AuthView
+from beepaste.modules.v1.views.auth import AuthView
 
 
 def init_auth_routes(app):

@@ -17,7 +17,7 @@ app = Sanic('beepaste')
 
 # load events after app running
 # TODO fix use somthing like after server start
-from beepaste.modules import modulePaste, moduleAuth, moduleStat, moduleDoc  # noqa
+from beepaste.modules import modulePaste, moduleAuth  # noqa
 from beepaste.events import auth  # noqa
 from beepaste.events import xss  # noqa
 from beepaste.events import mongo  # noqa
@@ -25,5 +25,3 @@ from beepaste.events import mongo  # noqa
 # add modules
 app.blueprint(modulePaste, url_prefix='api/v1/paste')
 app.blueprint(moduleAuth, url_prefix='api/v1/auth')
-app.blueprint(moduleStat, url_prefix='api/v1/stat')
-app.blueprint(moduleDoc, url_prefix='api/v1')
