@@ -18,9 +18,7 @@ app = Sanic('beepaste')
 # load events after app running
 # TODO fix use somthing like after server start
 from beepaste.modules import modulePaste, moduleAuth, moduleStat, moduleDoc  # noqa
-from beepaste.events import stat  # noqa
 from beepaste.events import auth  # noqa
-from beepaste.events import analytic  # noqa
 from beepaste.events import xss  # noqa
 from beepaste.events import mongo  # noqa
 
