@@ -1,10 +1,10 @@
 from sanic.views import HTTPMethodView
 from sanic import response
-from .models import UserModel, TokenModel
-import jwt
+from .models import UserModel
 from .schemas import loginSchema
-from beepaste import jwt_cnf, limits_cnf
-
+from beepaste.utils.tokens import create_token
+from beepaste import limits_cnf
+import datetime
 
 class AuthView(HTTPMethodView):
 
@@ -30,7 +30,10 @@ class AuthView(HTTPMethodView):
         '''this is for login , logout not required for token base auth'''
         # TODO: generate token for anonymous users based on ip!
         input_json = request.json
-        if input_json != '{}':
+        if type(input_json == None):
+            input_json = {}
+        # print(input_json)
+        if input_json != {}:
             #Login attempt
             safe_data, errors = loginSchema().load(input_json)
             if errors:
@@ -46,31 +49,17 @@ class AuthView(HTTPMethodView):
                         {"status": "fail", "details": "wrong username or password"},
                         status=403)
                 else:
-                    encoded_token = jwt.encode(
-                        {'userid': userid, 'exp': datetime.datetime.utcnow() +
-                            datetime.timedelta(minutes=limits_cnf['auth_timeout'] / 60)}, jwt_cnf['secret'],
-                            algorithm=jwt_cnf['algorithm'])
-                    # TODO: TEST
-                    new_token = TokenModel(encoded_token)
-                    new_token.save()
-                    await redis.redis.connection.set(encoded_token, "valid", ex=limits_cnf['auth_timeout'])
-                    limitsDict = limits_cnf.copy()
-                    await redis.redis.connection.set(encoded_token + '_limits', limitsDict, ex=limits_cnf['auth_timeout'])
+                    encoded_token = await create_token(userid, datetime.datetime.utcnow() +
+                                                datetime.timedelta(minutes=limits_cnf['auth_timeout'] / 60),
+                                                request.ip)
                     return response.json(
-                        {'status': 'success', "X-TOKEN": encoded},
+                        {'status': 'success', "X-TOKEN": encoded_token},
                         status=200)
         else:
             #Guest
-            encoded_token = jwt.encode(
-                {'userid': 0, 'exp': datetime.datetime.utcnow() +
-                    datetime.timedelta(minutes=limits_cnf['reset_timeout'] / 60)}, jwt_cnf['secret'],
-                    algorithm=jwt_cnf['algorithm'])
-            # TODO: TEST
-            new_token = TokenModel(encoded_token)
-            new_token.save()
-            await redis.redis.connection.set(encoded_token, "valid", ex=limits_cnf['reset_timeout'])
-            limitsDict = limits_cnf.copy()
-            await redis.redis.connection.set(encoded_token + "_limits", limitsDict, ex=limits_cnf['reset_timeout'])
+            encoded_token = await create_token(0, datetime.datetime.utcnow() +
+                                                datetime.timedelta(minutes=limits_cnf['reset_timeout'] / 60),
+                                                request.ip)
             return response.json(
-                {'status': 'success', "X-TOKEN": encoded},
+                {'status': 'success', "X-TOKEN": encoded_token},
                 status=200)
