@@ -28,11 +28,9 @@ class AuthView(HTTPMethodView):
 
     async def post(self, request):
         '''this is for login , logout not required for token base auth'''
-        # TODO: generate token for anonymous users based on ip!
         input_json = request.json
         if type(input_json == None):
             input_json = {}
-        # print(input_json)
         if input_json != {}:
             #Login attempt
             safe_data, errors = loginSchema().load(input_json)
