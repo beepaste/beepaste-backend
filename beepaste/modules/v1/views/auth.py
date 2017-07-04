@@ -49,7 +49,7 @@ class AuthView(HTTPMethodView):
                 else:
                     encoded_token = await create_token(userid, datetime.datetime.utcnow() +
                                                 datetime.timedelta(minutes=limits_cnf['auth_timeout'] / 60),
-                                                request.ip)
+                                                request.ip[0])
                     return response.json(
                         {'status': 'success', "X-TOKEN": encoded_token},
                         status=200)
@@ -57,7 +57,7 @@ class AuthView(HTTPMethodView):
             #Guest
             encoded_token = await create_token(0, datetime.datetime.utcnow() +
                                                 datetime.timedelta(minutes=limits_cnf['reset_timeout'] / 60),
-                                                request.ip)
+                                                request.ip[0])
             return response.json(
                 {'status': 'success', "X-TOKEN": encoded_token},
                 status=200)
