@@ -20,7 +20,7 @@ async def checkAuth(request):
 
             token_stat = await redis.get_value(encoded + '_stat')
 
-            if token_stat != 'valid':
+            if token_stat != b'valid':
                 return response.json(
                     {'status': 'fail', 'details': 'invalid token'},
                     status=403)
@@ -37,7 +37,7 @@ async def checkAuth(request):
                 await redis.expire(source_string, limits_cnf['reset_timeout'])
 
             token_limits = await redis.get_dict(encoded + '_limits')
-            source_limits = await redis.get_dict(source_limits)
+            source_limits = await redis.get_dict(source_string)
 
             request['token_limits'] = token_limits
             request['source_limits'] = source_limits
