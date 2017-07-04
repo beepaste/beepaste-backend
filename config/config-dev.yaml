@@ -2,10 +2,8 @@ mongodb:
     host: mongodb://localhost:27017/beepaste
 
 redis:
-    host: localhost
-    port: 6379
+    address: !!python/tuple ['localhost', 6379]
 #    password: my secret password
-    poolsize: 10
     db: 0
 
 limits:
