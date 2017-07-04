@@ -10,13 +10,20 @@ class Redis:
     pool across your application.
     """
     _connection = None
+    _pool = None
+
+
+    async def create_pool(self):
+        if not self._pool:
+            self._pool = await aioredis.create_pool(**redis_cnf)
 
     async def get_connection(self):
-        if not self._connection:
-            self._connection = await aioredis.create_redis(**redis_cnf)
+        # if not self._connection:
+            # self._connection = await aioredis.create_redis(**redis_cnf)
             # await lg(1, 'connected to redis')
-
-        return self._connection
+        await self.create_pool()
+        async with self._pool.get() as conn:
+            return conn
 
     async def expire(self, key, ttl):
         conn = await self.get_connection()
