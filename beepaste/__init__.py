@@ -10,6 +10,7 @@ mongo_cnf = get_config('mongodb')
 redis_cnf = get_config('redis')
 jwt_cnf = get_config('jwt')
 limits_cnf = get_config('limits')
+bitly_cnf = get_config('bitly')
 # lg(1, 'config loaded')
 
 # load sanic application

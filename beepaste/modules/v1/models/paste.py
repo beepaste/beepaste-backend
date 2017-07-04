@@ -4,7 +4,7 @@ from SanicMongo.fields import (IntField, DateTimeField, StringField, URLField,
                                BooleanField)
 import json
 from pyshorteners import Shortener
-# TODO: importing bitly config!
+from beepaste import bitly_cnf
 import string
 from random import choice
 from .pasteFields import validEncriptions, validSyntax
@@ -47,6 +47,6 @@ class PasteModel(Document):
             count = await PasteModel.objects(uri=new_uri).count()
 
         self.uri = new_uri
-        # access_token = get_config('bitly')['token']
+        # access_token = bitly_cnf['token']
         # shortener = Shortener('Bitly', bitly_token=access_token)
         # self.shorturl = shortener.short(url)
