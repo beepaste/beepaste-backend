@@ -22,7 +22,7 @@ async def checkAuth(request):
 
             if token_stat != 'valid':
                 return response.json(
-                    {'status': 'fail', 'details': 'invalid token2 ' + token_stat},
+                    {'status': 'fail', 'details': 'invalid token'},
                     status=403)
 
             token_limits_exists = await redis.exists(encoded + '_limits')
