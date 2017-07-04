@@ -1,6 +1,6 @@
 from beepaste import jwt_cnf
 import jwt
-from .token_model import TokenModel
+from beepaste.modules.v1.models.token import TokenModel
 from beepaste.redis import redis
 
 async def create_token(userid, exp, ipaddress="127.0.0.1"):
