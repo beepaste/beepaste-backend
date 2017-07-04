@@ -15,22 +15,33 @@ class PasteView(HTTPMethodView):
             return response.json(
                 {'status': 'fail', 'details': 'user is not authenticated'},
                 status=401)
-        else:
-            try:
-                paste_id = kwargs.get('pasteid')
-                paste = await Paste.objects(uri=paste_id).first()
-                if paste.expiryDate < datetime.datetime.now():
-                    return response.json(
-                        {'status': 'success', 'paste': paste},
-                        status=200)
-                else:
-                    paste.delete()
-                    return response.json(
-                        {'status': 'fail', 'details': "This paste has been expired"},
-                        status=410)
-                    # TOOD: Delete this from database
-            except:
-                return response.json({'status': 'fail', 'details': "Paste Not found"}, status=404)
+
+        token_limits = request['token_limits']
+        source_limits = request['source_limits']
+
+        if source_limits['get_paste'] == 0 or token_limits['get_paste'] == 0:
+            return response.json({
+                'status': 'fail', 'details': 'Reached maximum limits, wait 15minutes.'},
+                status=429)
+
+        try:
+            paste_id = kwargs.get('pasteid')
+            paste = await Paste.objects(uri=paste_id).first()
+            if paste.expiryDate < datetime.datetime.now():
+                request['token_limits']['get_paste'] -= 1
+                request['source_limits']['get_paste'] -= 1
+
+                return response.json(
+                    {'status': 'success', 'paste': paste},
+                    status=200)
+            else:
+                paste.delete()
+                return response.json(
+                    {'status': 'fail', 'details': "This paste has been expired"},
+                    status=410)
+                # TOOD: Delete this from database
+        except:
+            return response.json({'status': 'fail', 'details': "Paste Not found"}, status=404)
 
     async def post(self, request):
         ''' saves a sent JSON object into database and returns a link to it '''
