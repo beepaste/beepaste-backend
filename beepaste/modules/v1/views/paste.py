@@ -4,6 +4,7 @@ from sanic import response
 from mongoengine.errors import ValidationError, FieldDoesNotExist
 from beepaste.modules.v1.models.paste import PasteModel as Paste  # TODO fix
 from sanic.views import HTTPMethodView
+from beepaste.modules.v1.schemas.paste import pasteSchema
 
 
 class PasteView(HTTPMethodView):
@@ -45,14 +46,30 @@ class PasteView(HTTPMethodView):
 
     async def post(self, request):
         ''' saves a sent JSON object into database and returns a link to it '''
-        input_json = request.json
-        # TODO validation with some lib like marshmallow
-        # https://github.com/marshmallow-code/marshmallow
-        # not use try catch if validate faild return error from marshmallow
-        # else pass to the model
+
+        userid = request['userid']
+        if userid is None:
+            return response.json(
+                {'status': 'fail', 'details': 'user is not authenticated'},
+                status=401)
+
+        token_limits = request['token_limits']
+        source_limits = request['source_limits']
+
+        if source_limits['create_paste'] == 0 or token_limits['create_paste'] == 0:
+            return response.json({
+                'status': 'fail', 'details': 'Reached maximum limits, wait 15minutes.'},
+                status=429)
         try:
-            # TODO: set ownerID using the token used to authorize api!
-            new_paste = Paste(**input_json)
+            input_json = request.json
+            safe_data, errors = pasteSchema().load(input_json)
+
+            if errors:
+                return response.json(
+                    {"status": "fail", "details": errors},
+                    status=400)
+
+            new_paste = Paste(**safe_data)
             new_paste.views = 0
             await new_paste.generate_url()
             new_paste.validate()
