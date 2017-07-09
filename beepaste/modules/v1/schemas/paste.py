@@ -9,8 +9,12 @@ class pasteSchema(Schema):
     title = fields.String(default="Untitled",
                             validate=validate.Length(max=127, error="title must be at most 127 chars long"))
 
-    expiryDate = fields.DateTime(default=datetime.datetime.utcnow())
-    toExpire = fields.Boolean(default=False)
+    uri = fields.String(required=True, dump_only=True,
+                            validate=validate.Length(equal=6, error="title must be exactly 6 chars long"))
+    shorturl = fields.String(dump_only=True)
+
+    expiryDate = fields.DateTime(default=datetime.datetime.utcnow(), load_only=True)
+    toExpire = fields.Boolean(default=False, load_only=True)
 
     raw = fields.String(required=True)
     encryption = fields.String(validate=validate.OneOf(choices=validEncriptions), default="no")
