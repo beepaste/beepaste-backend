@@ -54,3 +54,18 @@ async def checkAuth(request):
                 status=400)
     else:
         request['userid'] = None
+
+@app.middleware('response')
+async def setAuth(request, response):
+    if request['userid'] is not None:
+        encoded = request.headers['X-TOKEN']
+        decodedtoken = jwt.decode(encoded, jwt_cnf['secret'],
+                                 algorithm=jwt_cnf['algorithm'])
+
+        if decodedtoken['userid'] == 0:
+            source_string = decodedtoken['ip'] + '_limits'
+        else:
+            source_string = decodedtoken['userid'] + '_limits'
+
+        await redis.set_dict(encoded + '_limits', request['token_limits'])
+        await redis.set_dict(source_string, request['source_limits'])
