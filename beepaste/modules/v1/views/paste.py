@@ -79,7 +79,7 @@ class PasteView(HTTPMethodView):
             await new_paste.generate_url()
             new_paste.validate()
             new_paste.save()
-            new_paste_obj = json.loads(new_paste.to_json())
+            new_paste_obj, errors = pasteSchema().dump(json.loads(new_paste.to_json()))
             ret_data = {
                 'status': 'success',
                 'paste': new_paste_obj
@@ -96,7 +96,7 @@ class PasteView(HTTPMethodView):
                 {'status': 'fail', 'details': 'invalid data',
                     'errors': e.to_dict()},
                 status=400)
-        except FieldDoesNotExist as e:
+        except:
             return response.json(
                 {'status': 'fail', 'details': 'invalid data'},
                 status=400)
