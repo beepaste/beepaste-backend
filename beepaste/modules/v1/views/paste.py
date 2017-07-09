@@ -29,11 +29,15 @@ class PasteView(HTTPMethodView):
             paste_id = kwargs.get('pasteid')
             paste = await Paste.objects(uri=paste_id).first()
             if paste.expiryDate < datetime.datetime.now():
+                paste.views += 1
+                paste.save()
+                paste_obj, errors = pasteSchema().dump(json.loads(paste.to_json()))
+
                 request['token_limits']['get_paste'] -= 1
                 request['source_limits']['get_paste'] -= 1
 
                 return response.json(
-                    {'status': 'success', 'paste': paste},
+                    {'status': 'success', 'paste': paste_obj},
                     status=200)
             else:
                 paste.delete()
@@ -71,6 +75,7 @@ class PasteView(HTTPMethodView):
 
             new_paste = Paste(**safe_data)
             new_paste.views = 0
+            new_paste.ownerID = userid
             await new_paste.generate_url()
             new_paste.validate()
             new_paste.save()
@@ -79,6 +84,10 @@ class PasteView(HTTPMethodView):
                 'status': 'success',
                 'paste': new_paste_obj
             }
+
+            request['token_limits']['create_paste'] -= 1
+            request['source_limits']['create_paste'] -= 1
+
             return response.json(
                 {'status': 'success', 'paste': new_paste_obj},
                 status=201)
