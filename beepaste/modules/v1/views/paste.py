@@ -50,6 +50,7 @@ class PasteView(HTTPMethodView):
 
     async def post(self, request):
         ''' saves a sent JSON object into database and returns a link to it '''
+        print(request.headers)
 
         userid = request['userid']
         if userid is None:
