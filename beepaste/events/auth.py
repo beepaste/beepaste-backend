@@ -57,7 +57,7 @@ async def checkAuth(request):
 
 @app.middleware('response')
 async def setAuth(request, response):
-    if request['userid'] is not None:
+    if 'userid' in request:
         encoded = request.headers['X-TOKEN']
         decodedtoken = jwt.decode(encoded, jwt_cnf['secret'],
                                  algorithm=jwt_cnf['algorithm'])
