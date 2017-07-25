@@ -6,4 +6,5 @@ python:
 install:
   - pip install -r requirements/requirements-dev.txt
 # command to run tests
-script: test/test.py
+script:
+ - sudo python3 test/test.py
