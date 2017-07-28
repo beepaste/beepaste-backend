@@ -5,6 +5,7 @@ from mongoengine.errors import ValidationError, FieldDoesNotExist
 from beepaste.modules.v1.models.paste import PasteModel as Paste  # TODO fix
 from sanic.views import HTTPMethodView
 from beepaste.modules.v1.schemas.paste import pasteSchema
+import traceback
 
 
 class PasteView(HTTPMethodView):
@@ -97,7 +98,8 @@ class PasteView(HTTPMethodView):
                 {'status': 'fail', 'details': 'invalid data',
                     'errors': e.to_dict()},
                 status=400)
-        except:
+        except Exception as e:
+            print(str(traceback.format_exc()))
             return response.json(
                 {'status': 'fail', 'details': 'invalid data'},
                 status=400)
