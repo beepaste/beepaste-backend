@@ -48,5 +48,6 @@ class PasteModel(Document):
 
         self.uri = new_uri
         access_token = bitly_cnf['token']
+        url = 'https://beta.beepaste.io/paste/view/' + new_uri
         shortener = Shortener('Bitly', bitly_token=access_token)
         self.shorturl = shortener.short(url)
