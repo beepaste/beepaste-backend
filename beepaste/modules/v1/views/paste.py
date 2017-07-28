@@ -98,14 +98,6 @@ class PasteView(HTTPMethodView):
                 {'status': 'fail', 'details': 'invalid data',
                     'errors': e.to_dict()},
                 status=400)
-                '''
-        except Exception as e:
-            print(str(traceback.format_exc()))
-            return response.json(
-                {'status': 'fail', 'details': 'invalid data'},
-                status=400)
-                '''
-
         # TODO: handle other exceptions!
 
     async def put(self, request):
