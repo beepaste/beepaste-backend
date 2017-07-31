@@ -67,7 +67,7 @@ logger: &logger
             propagate: false
         network:
             level: INFO
-            handlers: [cosole]
+            handlers: [console]
             qualname: network
             propagate: false
     root:
