@@ -1,5 +1,5 @@
 mongodb:
-    host: mongodb://admin:LQrSPzPn5iPd@localhost:27017/beepaste
+    host: mongodb://localhost:27017/beepaste
 
 redis:
     address: !!python/tuple ['localhost', 6379]
@@ -40,20 +40,34 @@ logger: &logger
             formatter: beepasteFormater
             level: INFO
             stream: ext://sys.stdout
+        grayLogGelfHttp:
+            class : pygelf.GelfHttpHandler
+            level : INFO
+            host: '127.0.0.1'
+            port: 12202
+            compress: false
+            debug: true
+        grayLogGelfTcp:
+            class : pygelf.GelfTcpHandler
+            level : INFO
+            host: '127.0.0.1'
+            port: 12201
+            debug: true
+
     loggers:
         beepaste:
             level: INFO
-            handlers: [file]
+            handlers: [grayLogGelfHttp, grayLogGelfTcp]
             qualname: beepaste
             propagate: false
         sanic:
             level: INFO
-            handlers: [file]
+            handlers: [grayLogGelfTcp, grayLogGelfHttp, file]
             qualname: sanic
             propagate: false
         network:
             level: INFO
-            handlers: [file]
+            handlers: [cosole]
             qualname: network
             propagate: false
     root:
