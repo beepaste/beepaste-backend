@@ -1,6 +1,5 @@
 from sanic import Sanic
 from beepaste.utils.config import get_config
-from beepaste.utils.logger import sendToLog
 
 # config
 # TODO all config to some variable like setting or somthing like that
@@ -12,7 +11,6 @@ jwt_cnf = get_config('jwt')
 limits_cnf = get_config('limits')
 bitly_cnf = get_config('bitly')
 logger_cnf = get_config('logger')
-sendToLog(6, 'config loaded')
 
 # load sanic application
 app = Sanic('beepaste')
