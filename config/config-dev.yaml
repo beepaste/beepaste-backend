@@ -57,17 +57,17 @@ logger: &logger
     loggers:
         beepaste:
             level: INFO
-            handlers: [grayLogGelfHttp, grayLogGelfTcp]
+            handlers: [console]
             qualname: beepaste
             propagate: false
         sanic:
             level: INFO
-            handlers: [grayLogGelfTcp, grayLogGelfHttp, file]
+            handlers: [console]
             qualname: sanic
             propagate: false
         network:
             level: INFO
-            handlers: [console]
+            handlers: [file]
             qualname: network
             propagate: false
     root:
@@ -77,7 +77,7 @@ logger: &logger
 app:
     port : 8080
     host : localhost
-    workers: 8
+    workers: 1
     log_config: *logger
     debug: True
 
