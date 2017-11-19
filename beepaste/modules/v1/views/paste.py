@@ -29,7 +29,7 @@ class PasteView(HTTPMethodView):
         try:
             paste_id = kwargs.get('pasteid')
             paste = await Paste.objects(uri=paste_id).first()
-            if paste.expiryDate < datetime.datetime.now():
+            if paste.expiryDate <= datetime.datetime.utcnow() and paste.toExpire is True:
                 paste.views += 1
                 paste.save()
                 paste_obj, errors = pasteSchema().dump(json.loads(paste.to_json()))
@@ -41,7 +41,7 @@ class PasteView(HTTPMethodView):
                     {'status': 'success', 'paste': paste_obj},
                     status=200)
             else:
-                paste.delete()
+                # paste.delete()
                 return response.json(
                     {'status': 'fail', 'details': "This paste has been expired"},
                     status=410)
