@@ -1,4 +1,4 @@
-from sanic import Sanic
+from sanic import Sanic, response
 from beepaste.utils.config import get_config
 from beepaste.utils.logger import lg
 
@@ -25,3 +25,16 @@ from beepaste.events import mongo  # noqa
 
 # add modules
 app.blueprint(moduleApiV1, url_prefix='api/v1')
+
+# Exception Handling!
+from sanic.exceptions import NotFound
+from sanic.exceptions import ServerError
+
+@app.exception(NotFound)
+def reponse404(request, exception):
+    return response.json({'status': 'fail', 'details': "Route Not found"}, status=404)
+
+@app.exception(ServerError)
+def reponse500(request, exception):
+    print(exception)
+    return response.json({'status': 'fail', 'details': "Some error occured"}, status=500)
