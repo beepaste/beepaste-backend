@@ -11,10 +11,13 @@ class AuthView(HTTPMethodView):
     async def get(self, request):
         ''' User Profile'''
         userid = request['userid']
-        if userid is None or userid == 0:
+        if userid is None:
             return response.json(
                 {"status": "fail", "details": "not authorized"},
                 status=401)
+        elif userid == 0:
+            return response.json(
+                    {'status': 'success', 'userid': userid, 'description': 'this is anonymous user!'})
         else:
             user = UserModel.getById(userid)
             if user is not None:
