@@ -7,4 +7,4 @@ install:
   - pip install -r requirements/requirements-dev.txt
 # command to run tests
 script:
- - sudo python3 test/test.py
+ - sudo python3 tests/test.py
