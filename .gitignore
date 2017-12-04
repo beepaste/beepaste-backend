@@ -3,4 +3,5 @@
 *.DS_STORE
 *.pem
 env/*
+.idea/
 __pycache__/

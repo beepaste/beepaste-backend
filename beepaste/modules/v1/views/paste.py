@@ -114,8 +114,3 @@ class PasteView(HTTPMethodView):
         return response.json(
             {'status': 'fail', 'details': 'Method Not Allowed'},
             status=405)
-
-    async def options(self, request):
-        return response.json(
-            {'status': 'fail', 'details': 'no content'},
-            status=204)
