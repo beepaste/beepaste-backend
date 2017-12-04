@@ -23,6 +23,6 @@ class pasteSchema(Schema):
 
     @pre_load
     def generate_expiryDate(self, in_data):
-        if in_data['expireAfter'] is not 0:
+        if 'expireAfter' in in_data and in_data['expireAfter'] is not 0:
             in_data['expiryDate'] = datetime.datetime.utcnow() + datetime.timedelta(seconds=in_data['expireAfter'])
             in_data['toExpire'] = True
