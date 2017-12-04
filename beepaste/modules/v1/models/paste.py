@@ -24,6 +24,7 @@ class PasteModel(Document):
 
     date = DateTimeField(default=datetime.datetime.utcnow())
     expiryDate = DateTimeField(default=datetime.datetime.utcnow())
+    expireAfter = IntField(default=0)
     toExpire = BooleanField(default=False)
 
     raw = StringField(required=True)

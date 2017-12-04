@@ -1,4 +1,4 @@
-from marshmallow import Schema, fields, validate
+from marshmallow import Schema, fields, validate, pre_load
 import datetime
 from beepaste.modules.v1.models.pasteFields import validEncriptions, validSyntax
 
@@ -14,8 +14,15 @@ class pasteSchema(Schema):
     shorturl = fields.String(dump_only=True)
 
     expiryDate = fields.DateTime(default=datetime.datetime.utcnow(), load_only=True)
+    expireAfter = fields.Integer(default=0, load_only=True)
     toExpire = fields.Boolean(default=False, load_only=True)
 
     raw = fields.String(required=True)
     encryption = fields.String(validate=validate.OneOf(choices=validEncriptions), default="no")
     syntax = fields.String(validate=validate.OneOf(choices=validSyntax), default="text")
+
+    @pre_load
+    def generate_expiryDate(self, in_data):
+        if in_data['expireAfter'] is not 0:
+            in_data['expiryDate'] = datetime.datetime.utcnow() + datetime.timedelta(seconds=in_data['expireAfter'])
+            in_data['toExpire'] = True
