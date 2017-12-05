@@ -29,7 +29,7 @@ class PasteView(HTTPMethodView):
         try:
             paste_id = kwargs.get('pasteid')
             paste = await Paste.objects(uri=paste_id).first()
-            if paste.toExpire is not True or (paste.expiryDate <= datetime.datetime.utcnow() and paste.toExpire is True):
+            if (paste.toExpire is not True) or ( datetime.datetime.utcnow() <= paste.expiryDate and paste.toExpire is True):
                 paste.views += 1
                 paste.save()
                 paste_obj, errors = pasteSchema().dump(json.loads(paste.to_json()))
