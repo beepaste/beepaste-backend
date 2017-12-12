@@ -1,3 +1,6 @@
+global:
+    base_url: 'https://beta.beepaste.io/'
+
 mongodb:
     host: mongodb://admin:LQrSPzPn5iPd@localhost:27017/beepaste
 

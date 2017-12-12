@@ -5,6 +5,7 @@ from beepaste.utils.logger import lg
 # config
 # TODO all config to some variable like setting or somthing like that
 # available of request !
+global_cnf = get_config('global')
 web_cnf = get_config('app')
 mongo_cnf = get_config('mongodb')
 redis_cnf = get_config('redis')

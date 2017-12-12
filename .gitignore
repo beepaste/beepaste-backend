@@ -5,3 +5,5 @@
 env/*
 .idea/
 __pycache__/
+beepaste/modules/v1/views/streaming.py
+.cache/

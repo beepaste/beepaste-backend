@@ -4,7 +4,7 @@ from SanicMongo.fields import (IntField, DateTimeField, StringField, URLField,
                                BooleanField)
 import json
 from pyshorteners import Shortener
-from beepaste import bitly_cnf
+from beepaste import bitly_cnf, global_cnf
 import string
 from random import choice
 from .pasteFields import validEncriptions, validSyntax
@@ -49,6 +49,6 @@ class PasteModel(Document):
 
         self.uri = new_uri
         access_token = bitly_cnf['token']
-        url = 'https://beta.beepaste.io/paste/view/' + new_uri
+        url = global_cnf['base_url'] + 'paste/view/' + new_uri
         shortener = Shortener('Bitly', bitly_token=access_token)
         self.shorturl = shortener.short(url)
