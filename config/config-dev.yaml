@@ -20,6 +20,7 @@ api:
 
 bitly:
     token: 'some-rnd-token'
+    use: false
 
 cron:
     key: ihjwb498ubo4v898b9ebuojmdvmbdjkgoipj42us

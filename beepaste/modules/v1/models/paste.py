@@ -48,7 +48,10 @@ class PasteModel(Document):
             count = await PasteModel.objects(uri=new_uri).count()
 
         self.uri = new_uri
-        access_token = bitly_cnf['token']
         url = global_cnf['base_url'] + 'paste/view/' + new_uri
-        shortener = Shortener('Bitly', bitly_token=access_token)
-        self.shorturl = shortener.short(url)
+        if bitly_cnf['use'] is True:
+            access_token = bitly_cnf['token']
+            shortener = Shortener('Bitly', bitly_token=access_token)
+            self.shorturl = shortener.short(url)
+        else:
+            self.shorturl = url
