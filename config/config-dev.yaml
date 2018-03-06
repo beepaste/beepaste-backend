@@ -2,7 +2,7 @@ global:
     base_url: 'https://beta.beepaste.io/'
 
 mongodb:
-    host: mongodb://admin:LQrSPzPn5iPd@localhost:27017/beepaste
+    host: mongodb://localhost:27017/beepaste
 
 redis:
     address: !!python/tuple ['localhost', 6379]
@@ -19,7 +19,7 @@ api:
     use_anonymous: yes
 
 bitly:
-    token: ihjwb498ubo4v898b9ebuojmdvmbdjkgoipj42us
+    token: 'some-rnd-token'
 
 cron:
     key: ihjwb498ubo4v898b9ebuojmdvmbdjkgoipj42us
@@ -67,7 +67,7 @@ app:
     port : 8080
     host : localhost
     workers: 8
-    log_config: *logger
+    # log_config: *logger
     debug: True
 
 jwt:

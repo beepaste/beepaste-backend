@@ -12,6 +12,7 @@ redis_cnf = get_config('redis')
 jwt_cnf = get_config('jwt')
 limits_cnf = get_config('limits')
 bitly_cnf = get_config('bitly')
+log_config = get_config('logger')
 # lg(1, 'config loaded')
 
 # load sanic application
