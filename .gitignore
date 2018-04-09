@@ -8,3 +8,4 @@ __pycache__/
 beepaste/modules/v1/views/streaming.py
 .cache/
 .pytest_cache/
+config/
